@@ -1,4 +1,4 @@
-(ns data-scope.core
+(ns data-scope.charts
   (:require [incanter.core :as incanter]
             [incanter.charts :as charts]))
 
