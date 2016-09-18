@@ -13,10 +13,10 @@
    :node->descriptor (fn [n] {:label (when (label? n) n)})))
 
 (defn view-tree [t]
-  (view-tree t sequential? #(not (sequential? %))))
+  (view-tree* t sequential? #(not (sequential? %))))
 
 (defn view-trie [t]
-  (view-tree t list? vector?))
+  (view-tree* t list? vector?))
 
 (def view-dot (comp viz/view-image viz/dot->image))
 

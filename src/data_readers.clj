@@ -24,5 +24,5 @@
 
  ds/g    data-scope.graphs/scope-graph
  ds/t    data-scope.graphs/scope-tree
- ds/trie data-scope.graphs/scope-tree
+ ds/trie data-scope.graphs/scope-trie
  ds/d    data-scope.graphs/scope-dot}
