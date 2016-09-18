@@ -1,16 +1,28 @@
 (ns data-scope.graphs
   (:require [rhizome.viz :as viz]))
 
-(defn scope-graph [g]
+(defn view-graph [g]
   (viz/view-graph
    (keys g) g
    :node->descriptor (fn [n]
                        {:label n})))
 
-(defn scope-tree [t]
+(defn view-tree* [t branch? label?]
   (viz/view-tree
-   sequential? seq t
-   :node->descriptor (fn [n]
-                       {:label (when (not (sequential? n)) n)})))
+   branch? seq t
+   :node->descriptor (fn [n] {:label (when (label? n) n)})))
 
-(def scope-dot (comp viz/view-image viz/dot->image))
+(defn view-tree [t]
+  (view-tree t sequential? #(not (sequential? %))))
+
+(defn view-trie [t]
+  (view-tree t list? vector?))
+
+(def view-dot (comp viz/view-image viz/dot->image))
+
+(defn scope [f form] `(do (~f ~form) ~form))
+
+(defn scope-graph [form] (scope `view-graph form))
+(defn scope-tree  [form] (scope `view-tree form))
+(defn scope-trie  [form] (scope `view-trie form))
+(defn scope-dot   [form] (scope `view-dot form))
