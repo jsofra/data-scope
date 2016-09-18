@@ -52,22 +52,18 @@ The tags are:
 
 * `#ds/b` - *bar chart*
 * `#ds/b-sum` - *summed bar chart*
-* `#ds/b-min` - *minimum bar chart*
 * `#ds/b-max` - *maximum bar chart*
-
+* `#ds/b-min` - *minimum bar chart*
 * `#ds/l` - *line chart*
 * `#ds/l-sum` - *summed line chart*
-* `#ds/l-min` - *minimum line chart*
 * `#ds/l-max` - *maximum line chart*
-
+* `#ds/l-min` - *minimum line chart*
 * `#ds/a` - *area chart*
-
 * `#ds/sa` - *stacked area chart*
-
 * `#ds/p` - *pie chart*
 * `#ds/p-sum` - *summed pie chart*
-* `#ds/p-min` - *minimum pie chart*
 * `#ds/p-max` - *maximum pie chart*
+* `#ds/p-min` - *minimum pie chart*
 
 #### Chart Examples
 
