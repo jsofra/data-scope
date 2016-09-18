@@ -56,7 +56,9 @@
 (def scope-ident (partial scope `identity))
 
 (defn *-scope [modifier empty-chart-fn form]
-  (scope `(partial mapv (partial apply ~modifier)) empty-chart-fn form))
+  (scope `(partial mapv (partial apply ~modifier))
+         empty-chart-fn form))
+
 (defn bar-scope          [modifier form] (*-scope modifier `charts/bar-chart form))
 (defn area-scope         [modifier form] (*-scope modifier `charts/area-chart form))
 (defn stacked-area-scope [modifier form] (*-scope modifier `charts/stacked-area-chart form))
