@@ -173,13 +173,6 @@ user> (let [data [(range 4 14) (reverse (range 2 12)) (range 8 18) (reverse (ran
 ```
 !["sequence - sum line chart"](/doc/line_s_ns_sum.png)
 
-``` clojure
-user> (let [data {:a (range 4 14) :b (reverse (range 2 12))}]
-        #ds/l-sum data)
-{:a (4 5 6 7 8 9 10 11 12 13), :b (11 10 9 8 7 6 5 4 3 2)}
-```
-!["sequence - sum line chart"](/doc/line_map_ns_sum.png)
-
 #### `#ds/l-max`
 
 ``` clojure
@@ -189,13 +182,6 @@ user> (let [data [(range 4 14) (reverse (range 2 12)) (range 8 18) (reverse (ran
 ```
 !["sequence - max line chart"](/doc/line_s_ns_max.png)
 
-``` clojure
-user> (let [data {:a (range 4 14) :b (reverse (range 2 12))}]
-        #ds/l-max data)
-{:a (4 5 6 7 8 9 10 11 12 13), :b (11 10 9 8 7 6 5 4 3 2)}
-```
-!["sequence - max line chart"](/doc/line_map_ns_max.png)
-
 #### `#ds/l-min`
 
 ``` clojure
@@ -204,13 +190,6 @@ user> (let [data [(range 4 14) (reverse (range 2 12)) (range 8 18) (reverse (ran
 [(4 5 6 7 8 9 10 11 12 13) (11 10 9 8 7 6 5 4 3 2) (8 9 10 11 12 13 14 15 16 17) (14 13 12 11 10 9 8 7 6 5)]
 ```
 !["sequence - min line chart"](/doc/line_s_ns_min.png)
-
-``` clojure
-user> (let [data {:a (range 4 14) :b (reverse (range 2 12))}]
-        #ds/l-min data)
-{:a (4 5 6 7 8 9 10 11 12 13), :b (11 10 9 8 7 6 5 4 3 2)}
-```
-!["sequence - min line chart"](/doc/line_map_ns_min.png)
 
 #### `#ds/a`
 
@@ -337,7 +316,7 @@ user> (let [data [[1 [2 3]] [4 [5]]]]
         #ds/t data)
 [[1 [2 3]] [4 [5]]]
 ```
-!["graph example"](/doc/tree.png)
+!["tree example"](/doc/tree.png)
 
 #### `#ds/trie`
 
@@ -346,7 +325,7 @@ user> (let [data '([1 2] ([3 4] ([5 6 7])))]
         #ds/trie data)
 ([1 2] ([3 4] ([5 6 7])))
 ```
-!["graph example"](/doc/trie.png)
+!["trie example"](/doc/trie.png)
 
 
 ## License
