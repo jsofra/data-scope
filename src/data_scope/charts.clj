@@ -38,13 +38,26 @@
   [data chart modifier]
   (build-chart chart (keys data) (modifier (vals data))))
 
+(defn build-pie-chart [chart data modifier]
+  (let [dataset (.. chart getPlot getDataset)]
+    (doseq [[k v] data :let [[v] (modifier [v])]]
+      (.setValue dataset (str k " " v) v)))
+  chart)
+
+(defmethod chart-data
+  [org.jfree.chart.plot.PiePlot java.lang.Iterable java.lang.Number]
+  [data chart modifier]
+  (build-pie-chart chart (into {} (map vector (range) data)) modifier))
+
+(defmethod chart-data
+  [org.jfree.chart.plot.PiePlot java.lang.Iterable java.lang.Iterable]
+  [data chart modifier]
+  (build-pie-chart chart (into {} (map vector (range) (apply concat data))) modifier))
+
 (defmethod chart-data
   [org.jfree.chart.plot.PiePlot clojure.lang.IPersistentMap clojure.lang.MapEntry]
   [data chart modifier]
-  (let [dataset (.. chart getPlot getDataset)]
-    (doseq [[k v] data :let [v (modifier v)]]
-      (.setValue dataset (str k " " v) v)))
-  chart)
+  (build-pie-chart chart data modifier))
 
 (defn view-chart [data chart modifier]
   (incanter/view (chart-data data chart modifier)))
