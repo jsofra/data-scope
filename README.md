@@ -51,237 +51,521 @@ Each of the chart tags may visualize:
 The tags are:
 
 * `#ds/b` - *bar chart*
-* `#ds/b-sum` - *summed bar chart*
-* `#ds/b-max` - *maximum bar chart*
-* `#ds/b-min` - *minimum bar chart*
+* `#ds/b-sum` - *row wise summed bar chart*
+* `#ds/b-max` - *row wise maximum bar chart*
+* `#ds/b-min` - *row wise minimum bar chart*
+* `#ds/b-sum*` - *column wise summed bar chart*
+* `#ds/b-max*` - *column wise maximum bar chart*
+* `#ds/b-min*` - *column wise minimum bar chart*
 * `#ds/l` - *line chart*
-* `#ds/l-sum` - *summed line chart*
-* `#ds/l-max` - *maximum line chart*
-* `#ds/l-min` - *minimum line chart*
+* `#ds/l-sum` - *row wise summed line chart*
+* `#ds/l-max` - *row wise maximum line chart*
+* `#ds/l-min` - *row wise minimum line chart*
+* `#ds/l-sum*` - *column wise summed line chart*
+* `#ds/l-max*` - *column wise maximum line chart*
+* `#ds/l-min*` - *column wise minimum line chart*
 * `#ds/a` - *area chart*
+* `#ds/a-sum` - *row wise summed area chart*
+* `#ds/a-max` - *row wise maximum area chart*
+* `#ds/a-min` - *row wise minimum area chart*
+* `#ds/a-sum*` - *column wise summed area chart*
+* `#ds/a-max*` - *column wise maximum area chart*
+* `#ds/a-min*` - *column wise minimum area chart*
 * `#ds/sa` - *stacked area chart*
+* `#ds/sa-sum` - *row wise summed stacked area chart*
+* `#ds/sa-max` - *row wise maximum stacked area chart*
+* `#ds/sa-min` - *row wise minimum stacked area chart*
+* `#ds/sa-sum*` - *column wise summed stacked area chart*
+* `#ds/sa-max*` - *column wise maximum stacked area chart*
+* `#ds/sa-min*` - *column wise minimum stacked area chart*
 * `#ds/p` - *pie chart*
-* `#ds/p-sum` - *summed pie chart*
-* `#ds/p-max` - *maximum pie chart*
-* `#ds/p-min` - *minimum pie chart*
+* `#ds/p-sum` - *row wise summed pie chart*
+* `#ds/p-max` - *row wise maximum pie chart*
+* `#ds/p-min` - *row wise minimum pie chart*
+* `#ds/p-sum*` - *column wise summed pie chart*
+* `#ds/p-max*` - *column wise maximum pie chart*
+* `#ds/p-min*` - *column wise minimum pie chart*
 
 #### Chart Examples
 
 #### `#ds/b`
 
 ``` clojure
-user> (let [data (range 4 14)]
-        #ds/b data)
-(4 5 6 7 8 9 10 11 12 13)
+user> #ds/b (range 10)
 ```
-!["numeric sequence - bar chart"](/doc/bar_ns.png)
+![""](doc/bar_ns.png)
 
 ``` clojure
-user> (let [data [(range 4 14) (reverse (range 2 12)) (range 8 18) (reverse (range 5 15))]]
-        #ds/b data)
-[(4 5 6 7 8 9 10 11 12 13) (11 10 9 8 7 6 5 4 3 2) (8 9 10 11 12 13 14 15 16 17) (14 13 12 11 10 9 8 7 6 5)]
+user> #ds/b [(range 10) [20 1 2 23 8 3 7 4 6 5] (reverse (range 4 14))]
 ```
-!["sequence - bar chart"](/doc/bar_s_ns.png)
+![""](doc/bar_s_ns.png)
 
 ``` clojure
-user> (let [data {:a (range 4 14) :b (reverse (range 2 12))}]
-        #ds/b data)
-{:a (4 5 6 7 8 9 10 11 12 13), :b (11 10 9 8 7 6 5 4 3 2)}
+user> #ds/b {:a (range 10), :b [20 1 2 23 8 3 7 4 6 5], :c (reverse (range 4 14))}
 ```
-!["map - bar chart"](/doc/bar_map_ns.png)
+![""](doc/bar_map_ns.png)
 
-#### `#ds/b-sum`
+
+#### `#ds/b-sum` - row wise sum
 
 ``` clojure
-user> (let [data [(range 4 14) (reverse (range 2 12)) (range 8 18) (reverse (range 5 15))]]
-        #ds/b-sum data)
-[(4 5 6 7 8 9 10 11 12 13) (11 10 9 8 7 6 5 4 3 2) (8 9 10 11 12 13 14 15 16 17) (14 13 12 11 10 9 8 7 6 5)]
+user> #ds/b-sum [(range 10) [20 1 2 23 8 3 7 4 6 5] (reverse (range 4 14))]
 ```
-!["sequence - sum bar chart"](/doc/bar_s_ns_sum.png)
+![""](doc/bar_s_ns_sum.png)
 
 ``` clojure
-user> (let [data {:a (range 4 14) :b (reverse (range 2 12))}]
-        #ds/b-sum data)
-{:a (4 5 6 7 8 9 10 11 12 13), :b (11 10 9 8 7 6 5 4 3 2)}
+user> #ds/b-sum {:a (range 10), :b [20 1 2 23 8 3 7 4 6 5], :c (reverse (range 4 14))}
 ```
-!["sequence - sum bar chart"](/doc/bar_map_ns_sum.png)
+![""](doc/bar_map_ns_sum.png)
 
-#### `#ds/b-max`
+
+#### `#ds/b-sum*` - column wise sum
 
 ``` clojure
-user> (let [data [(range 4 14) (reverse (range 2 12)) (range 8 18) (reverse (range 5 15))]]
-        #ds/b-max data)
-[(4 5 6 7 8 9 10 11 12 13) (11 10 9 8 7 6 5 4 3 2) (8 9 10 11 12 13 14 15 16 17) (14 13 12 11 10 9 8 7 6 5)]
+user> #ds/b-sum* [(range 10) [20 1 2 23 8 3 7 4 6 5] (reverse (range 4 14))]
 ```
-!["sequence - max bar chart"](/doc/bar_s_ns_max.png)
+![""](doc/bar_s_ns_sum_c.png)
 
 ``` clojure
-user> (let [data {:a (range 4 14) :b (reverse (range 2 12))}]
-        #ds/b-max data)
-{:a (4 5 6 7 8 9 10 11 12 13), :b (11 10 9 8 7 6 5 4 3 2)}
+user> #ds/b-sum* {:a (range 10), :b [20 1 2 23 8 3 7 4 6 5], :c (reverse (range 4 14))}
 ```
-!["sequence - max bar chart"](/doc/bar_map_ns_max.png)
+![""](doc/bar_map_ns_sum_c.png)
 
-#### `#ds/b-min`
 
-``` clojure
-user> (let [data [(range 4 14) (reverse (range 2 12)) (range 8 18) (reverse (range 5 15))]]
-        #ds/b-min data)
-[(4 5 6 7 8 9 10 11 12 13) (11 10 9 8 7 6 5 4 3 2) (8 9 10 11 12 13 14 15 16 17) (14 13 12 11 10 9 8 7 6 5)]
-```
-!["sequence - min bar chart"](/doc/bar_s_ns_min.png)
+#### `#ds/b-max` - row wise max
 
 ``` clojure
-user> (let [data {:a (range 4 14) :b (reverse (range 2 12))}]
-        #ds/b-min data)
-{:a (4 5 6 7 8 9 10 11 12 13), :b (11 10 9 8 7 6 5 4 3 2)}
+user> #ds/b-max [(range 10) [20 1 2 23 8 3 7 4 6 5] (reverse (range 4 14))]
 ```
-!["sequence - min bar chart"](/doc/bar_map_ns_min.png)
+![""](doc/bar_s_ns_max.png)
+
+``` clojure
+user> #ds/b-max {:a (range 10), :b [20 1 2 23 8 3 7 4 6 5], :c (reverse (range 4 14))}
+```
+![""](doc/bar_map_ns_max.png)
+
+
+#### `#ds/b-max*` - column wise max
+
+``` clojure
+user> #ds/b-max* [(range 10) [20 1 2 23 8 3 7 4 6 5] (reverse (range 4 14))]
+```
+![""](doc/bar_s_ns_max_c.png)
+
+``` clojure
+user> #ds/b-max* {:a (range 10), :b [20 1 2 23 8 3 7 4 6 5], :c (reverse (range 4 14))}
+```
+![""](doc/bar_map_ns_max_c.png)
+
+
+#### `#ds/b-min` - row wise min
+
+``` clojure
+user> #ds/b-min [(range 10) [20 1 2 23 8 3 7 4 6 5] (reverse (range 4 14))]
+```
+![""](doc/bar_s_ns_min.png)
+
+``` clojure
+user> #ds/b-min {:a (range 10), :b [20 1 2 23 8 3 7 4 6 5], :c (reverse (range 4 14))}
+```
+![""](doc/bar_map_ns_min.png)
+
+
+#### `#ds/b-min*` - column wise min
+
+``` clojure
+user> #ds/b-min* [(range 10) [20 1 2 23 8 3 7 4 6 5] (reverse (range 4 14))]
+```
+![""](doc/bar_s_ns_min_c.png)
+
+``` clojure
+user> #ds/b-min* {:a (range 10), :b [20 1 2 23 8 3 7 4 6 5], :c (reverse (range 4 14))}
+```
+![""](doc/bar_map_ns_min_c.png)
+
 
 #### `#ds/l`
-``` clojure
-user> (let [data (range 4 14)]
-        #ds/l data)
-(4 5 6 7 8 9 10 11 12 13)
-```
-!["numeric sequence - line chart"](/doc/line_ns.png)
 
 ``` clojure
-user> (let [data [(range 4 14) (reverse (range 2 12)) (range 8 18) (reverse (range 5 15))]]
-        #ds/l data)
-[(4 5 6 7 8 9 10 11 12 13) (11 10 9 8 7 6 5 4 3 2) (8 9 10 11 12 13 14 15 16 17) (14 13 12 11 10 9 8 7 6 5)]
+user> #ds/l (range 10)
 ```
-!["sequence - line chart"](/doc/line_s_ns.png)
+![""](doc/line_ns.png)
 
 ``` clojure
-user> (let [data {:a (range 4 14) :b (reverse (range 2 12))}]
-        #ds/l data)
-{:a (4 5 6 7 8 9 10 11 12 13), :b (11 10 9 8 7 6 5 4 3 2)}
+user> #ds/l [(range 10) [20 1 2 23 8 3 7 4 6 5] (reverse (range 4 14))]
 ```
-!["map - line chart"](/doc/line_map_ns.png)
-
-#### `#ds/l-sum`
+![""](doc/line_s_ns.png)
 
 ``` clojure
-user> (let [data [(range 4 14) (reverse (range 2 12)) (range 8 18) (reverse (range 5 15))]]
-        #ds/l-sum data)
-[(4 5 6 7 8 9 10 11 12 13) (11 10 9 8 7 6 5 4 3 2) (8 9 10 11 12 13 14 15 16 17) (14 13 12 11 10 9 8 7 6 5)]
+user> #ds/l {:a (range 10), :b [20 1 2 23 8 3 7 4 6 5], :c (reverse (range 4 14))}
 ```
-!["sequence - sum line chart"](/doc/line_s_ns_sum.png)
+![""](doc/line_map_ns.png)
 
-#### `#ds/l-max`
+
+#### `#ds/l-sum` - row wise sum
 
 ``` clojure
-user> (let [data [(range 4 14) (reverse (range 2 12)) (range 8 18) (reverse (range 5 15))]]
-        #ds/l-max data)
-[(4 5 6 7 8 9 10 11 12 13) (11 10 9 8 7 6 5 4 3 2) (8 9 10 11 12 13 14 15 16 17) (14 13 12 11 10 9 8 7 6 5)]
+user> #ds/l-sum [(range 10) [20 1 2 23 8 3 7 4 6 5] (reverse (range 4 14))]
 ```
-!["sequence - max line chart"](/doc/line_s_ns_max.png)
-
-#### `#ds/l-min`
+![""](doc/line_s_ns_sum.png)
 
 ``` clojure
-user> (let [data [(range 4 14) (reverse (range 2 12)) (range 8 18) (reverse (range 5 15))]]
-        #ds/l-min data)
-[(4 5 6 7 8 9 10 11 12 13) (11 10 9 8 7 6 5 4 3 2) (8 9 10 11 12 13 14 15 16 17) (14 13 12 11 10 9 8 7 6 5)]
+user> #ds/l-sum {:a (range 10), :b [20 1 2 23 8 3 7 4 6 5], :c (reverse (range 4 14))}
 ```
-!["sequence - min line chart"](/doc/line_s_ns_min.png)
+![""](doc/line_map_ns_sum.png)
+
+
+#### `#ds/l-sum*` - column wise sum
+
+``` clojure
+user> #ds/l-sum* [(range 10) [20 1 2 23 8 3 7 4 6 5] (reverse (range 4 14))]
+```
+![""](doc/line_s_ns_sum_c.png)
+
+``` clojure
+user> #ds/l-sum* {:a (range 10), :b [20 1 2 23 8 3 7 4 6 5], :c (reverse (range 4 14))}
+```
+![""](doc/line_map_ns_sum_c.png)
+
+
+#### `#ds/l-max` - row wise max
+
+``` clojure
+user> #ds/l-max [(range 10) [20 1 2 23 8 3 7 4 6 5] (reverse (range 4 14))]
+```
+![""](doc/line_s_ns_max.png)
+
+``` clojure
+user> #ds/l-max {:a (range 10), :b [20 1 2 23 8 3 7 4 6 5], :c (reverse (range 4 14))}
+```
+![""](doc/line_map_ns_max.png)
+
+
+#### `#ds/l-max*` - column wise max
+
+``` clojure
+user> #ds/l-max* [(range 10) [20 1 2 23 8 3 7 4 6 5] (reverse (range 4 14))]
+```
+![""](doc/line_s_ns_max_c.png)
+
+``` clojure
+user> #ds/l-max* {:a (range 10), :b [20 1 2 23 8 3 7 4 6 5], :c (reverse (range 4 14))}
+```
+![""](doc/line_map_ns_max_c.png)
+
+
+#### `#ds/l-min` - row wise min
+
+``` clojure
+user> #ds/l-min [(range 10) [20 1 2 23 8 3 7 4 6 5] (reverse (range 4 14))]
+```
+![""](doc/line_s_ns_min.png)
+
+``` clojure
+user> #ds/l-min {:a (range 10), :b [20 1 2 23 8 3 7 4 6 5], :c (reverse (range 4 14))}
+```
+![""](doc/line_map_ns_min.png)
+
+
+#### `#ds/l-min*` - column wise min
+
+``` clojure
+user> #ds/l-min* [(range 10) [20 1 2 23 8 3 7 4 6 5] (reverse (range 4 14))]
+```
+![""](doc/line_s_ns_min_c.png)
+
+``` clojure
+user> #ds/l-min* {:a (range 10), :b [20 1 2 23 8 3 7 4 6 5], :c (reverse (range 4 14))}
+```
+![""](doc/line_map_ns_min_c.png)
+
 
 #### `#ds/a`
 
 ``` clojure
-user> (let [data (range 4 14)]
-        #ds/a data)
-(4 5 6 7 8 9 10 11 12 13)
+user> #ds/a (range 10)
 ```
-!["numeric sequence - area chart"](/doc/area_ns.png)
+![""](doc/area_ns.png)
 
 ``` clojure
-user> (let [data [(range 4 14) (reverse (range 2 12)) (range 8 18) (reverse (range 5 15))]]
-        #ds/a data)
-[(4 5 6 7 8 9 10 11 12 13) (11 10 9 8 7 6 5 4 3 2) (8 9 10 11 12 13 14 15 16 17) (14 13 12 11 10 9 8 7 6 5)]
+user> #ds/a [(range 10) [20 1 2 23 8 3 7 4 6 5] (reverse (range 4 14))]
 ```
-!["sequence - area chart"](/doc/area_s_ns.png)
+![""](doc/area_s_ns.png)
 
 ``` clojure
-user> (let [data {:a (range 4 14) :b (reverse (range 2 12))}]
-        #ds/a data)
-{:a (4 5 6 7 8 9 10 11 12 13), :b (11 10 9 8 7 6 5 4 3 2)}
+user> #ds/a {:a (range 10), :b [20 1 2 23 8 3 7 4 6 5], :c (reverse (range 4 14))}
 ```
-!["map - area chart"](/doc/area_map_ns.png)
+![""](doc/area_map_ns.png)
+
+
+#### `#ds/a-sum` - row wise sum
+
+``` clojure
+user> #ds/a-sum [(range 10) [20 1 2 23 8 3 7 4 6 5] (reverse (range 4 14))]
+```
+![""](doc/area_s_ns_sum.png)
+
+``` clojure
+user> #ds/a-sum {:a (range 10), :b [20 1 2 23 8 3 7 4 6 5], :c (reverse (range 4 14))}
+```
+![""](doc/area_map_ns_sum.png)
+
+
+#### `#ds/a-sum*` - column wise sum
+
+``` clojure
+user> #ds/a-sum* [(range 10) [20 1 2 23 8 3 7 4 6 5] (reverse (range 4 14))]
+```
+![""](doc/area_s_ns_sum_c.png)
+
+``` clojure
+user> #ds/a-sum* {:a (range 10), :b [20 1 2 23 8 3 7 4 6 5], :c (reverse (range 4 14))}
+```
+![""](doc/area_map_ns_sum_c.png)
+
+
+#### `#ds/a-max` - row wise max
+
+``` clojure
+user> #ds/a-max [(range 10) [20 1 2 23 8 3 7 4 6 5] (reverse (range 4 14))]
+```
+![""](doc/area_s_ns_max.png)
+
+``` clojure
+user> #ds/a-max {:a (range 10), :b [20 1 2 23 8 3 7 4 6 5], :c (reverse (range 4 14))}
+```
+![""](doc/area_map_ns_max.png)
+
+
+#### `#ds/a-max*` - column wise max
+
+``` clojure
+user> #ds/a-max* [(range 10) [20 1 2 23 8 3 7 4 6 5] (reverse (range 4 14))]
+```
+![""](doc/area_s_ns_max_c.png)
+
+``` clojure
+user> #ds/a-max* {:a (range 10), :b [20 1 2 23 8 3 7 4 6 5], :c (reverse (range 4 14))}
+```
+![""](doc/area_map_ns_max_c.png)
+
+
+#### `#ds/a-min` - row wise min
+
+``` clojure
+user> #ds/a-min [(range 10) [20 1 2 23 8 3 7 4 6 5] (reverse (range 4 14))]
+```
+![""](doc/area_s_ns_min.png)
+
+``` clojure
+user> #ds/a-min {:a (range 10), :b [20 1 2 23 8 3 7 4 6 5], :c (reverse (range 4 14))}
+```
+![""](doc/area_map_ns_min.png)
+
+
+#### `#ds/a-min*` - column wise min
+
+``` clojure
+user> #ds/a-min* [(range 10) [20 1 2 23 8 3 7 4 6 5] (reverse (range 4 14))]
+```
+![""](doc/area_s_ns_min_c.png)
+
+``` clojure
+user> #ds/a-min* {:a (range 10), :b [20 1 2 23 8 3 7 4 6 5], :c (reverse (range 4 14))}
+```
+![""](doc/area_map_ns_min_c.png)
+
 
 #### `#ds/sa`
 
 ``` clojure
-user> (let [data (range 4 14)]
-        #ds/sa data)
-(4 5 6 7 8 9 10 11 12 13)
+user> #ds/sa (range 10)
 ```
-!["numeric sequence - stacked area chart"](/doc/stacked_area_ns.png)
+![""](doc/stacked-area_ns.png)
 
 ``` clojure
-user> (let [data [(range 4 14) (reverse (range 2 12)) (range 8 18) (reverse (range 5 15))]]
-        #ds/sa data)
-[(4 5 6 7 8 9 10 11 12 13) (11 10 9 8 7 6 5 4 3 2) (8 9 10 11 12 13 14 15 16 17) (14 13 12 11 10 9 8 7 6 5)]
+user> #ds/sa [(range 10) [20 1 2 23 8 3 7 4 6 5] (reverse (range 4 14))]
 ```
-!["sequence - stacked area chart"](/doc/stacked_area_s_ns.png)
+![""](doc/stacked-area_s_ns.png)
 
 ``` clojure
-user> (let [data {:a (range 4 14) :b (reverse (range 2 12))}]
-        #ds/sa data)
-{:a (4 5 6 7 8 9 10 11 12 13), :b (11 10 9 8 7 6 5 4 3 2)}
+user> #ds/sa {:a (range 10), :b [20 1 2 23 8 3 7 4 6 5], :c (reverse (range 4 14))}
 ```
-!["map - stacked area chart"](/doc/stacked_area_map_ns.png)
+![""](doc/stacked-area_map_ns.png)
+
+
+#### `#ds/sa-sum` - row wise sum
+
+``` clojure
+user> #ds/sa-sum [(range 10) [20 1 2 23 8 3 7 4 6 5] (reverse (range 4 14))]
+```
+![""](doc/stacked-area_s_ns_sum.png)
+
+``` clojure
+user> #ds/sa-sum {:a (range 10), :b [20 1 2 23 8 3 7 4 6 5], :c (reverse (range 4 14))}
+```
+![""](doc/stacked-area_map_ns_sum.png)
+
+
+#### `#ds/sa-sum*` - column wise sum
+
+``` clojure
+user> #ds/sa-sum* [(range 10) [20 1 2 23 8 3 7 4 6 5] (reverse (range 4 14))]
+```
+![""](doc/stacked-area_s_ns_sum_c.png)
+
+``` clojure
+user> #ds/sa-sum* {:a (range 10), :b [20 1 2 23 8 3 7 4 6 5], :c (reverse (range 4 14))}
+```
+![""](doc/stacked-area_map_ns_sum_c.png)
+
+
+#### `#ds/sa-max` - row wise max
+
+``` clojure
+user> #ds/sa-max [(range 10) [20 1 2 23 8 3 7 4 6 5] (reverse (range 4 14))]
+```
+![""](doc/stacked-area_s_ns_max.png)
+
+``` clojure
+user> #ds/sa-max {:a (range 10), :b [20 1 2 23 8 3 7 4 6 5], :c (reverse (range 4 14))}
+```
+![""](doc/stacked-area_map_ns_max.png)
+
+
+#### `#ds/sa-max*` - column wise max
+
+``` clojure
+user> #ds/sa-max* [(range 10) [20 1 2 23 8 3 7 4 6 5] (reverse (range 4 14))]
+```
+![""](doc/stacked-area_s_ns_max_c.png)
+
+``` clojure
+user> #ds/sa-max* {:a (range 10), :b [20 1 2 23 8 3 7 4 6 5], :c (reverse (range 4 14))}
+```
+![""](doc/stacked-area_map_ns_max_c.png)
+
+
+#### `#ds/sa-min` - row wise min
+
+``` clojure
+user> #ds/sa-min [(range 10) [20 1 2 23 8 3 7 4 6 5] (reverse (range 4 14))]
+```
+![""](doc/stacked-area_s_ns_min.png)
+
+``` clojure
+user> #ds/sa-min {:a (range 10), :b [20 1 2 23 8 3 7 4 6 5], :c (reverse (range 4 14))}
+```
+![""](doc/stacked-area_map_ns_min.png)
+
+
+#### `#ds/sa-min*` - column wise min
+
+``` clojure
+user> #ds/sa-min* [(range 10) [20 1 2 23 8 3 7 4 6 5] (reverse (range 4 14))]
+```
+![""](doc/stacked-area_s_ns_min_c.png)
+
+``` clojure
+user> #ds/sa-min* {:a (range 10), :b [20 1 2 23 8 3 7 4 6 5], :c (reverse (range 4 14))}
+```
+![""](doc/stacked-area_map_ns_min_c.png)
+
 
 #### `#ds/p`
 
 ``` clojure
-user> (let [data (range 1 4)]
-        #ds/p data)
-(1 2 3)
+user> #ds/p (range 10)
 ```
-!["numeric sequence - pie chart"](/doc/pie_ns.png)
+![""](doc/pie_ns.png)
 
 ``` clojure
-user> (let [data [(range 1 4) (range 1 4)]]
-        #ds/p data)
-[(1 2 3) (1 2 3)]
+user> #ds/p [(range 2) [8 1 2] [2 4]]
 ```
-!["sequence - pie chart"](/doc/pie_s_ns.png)
+![""](doc/pie_s_ns.png)
 
 ``` clojure
-user> (let [data {:a 1 :b 2 :c 4}]
-        #ds/p data)
-{:a 1, :b 2, :c 4}
+user> #ds/p {:a 10, :b 2, :c 6}
 ```
-!["map - pie chart"](/doc/pie_map_ns.png)
+![""](doc/pie_map_ns.png)
 
-#### `#ds/p-sum`
+
+#### `#ds/p-sum` - row wise sum
 
 ``` clojure
-user> (let [data {:a (range 4 14) :b (reverse (range 2 12))}]
-        #ds/p-sum data)
-{:a (4 5 6 7 8 9 10 11 12 13), :b (11 10 9 8 7 6 5 4 3 2)}
+user> #ds/p-sum [(range 10) [20 1 2 23 8 3 7 4 6 5] (reverse (range 4 14))]
 ```
-!["sequence - summed pie chart"](/doc/pie_map_ns_sum.png)
-
-#### `#ds/p-max`
+![""](doc/pie_s_ns_sum.png)
 
 ``` clojure
-user> (let [data {:a (range 4 14) :b (reverse (range 2 12))}]
-        #ds/p-max data)
-{:a (4 5 6 7 8 9 10 11 12 13), :b (11 10 9 8 7 6 5 4 3 2)}
+user> #ds/p-sum {:a (range 10), :b [20 1 2 23 8 3 7 4 6 5], :c (reverse (range 4 14))}
 ```
-!["sequence - max pie chart"](/doc/pie_map_ns_max.png)
+![""](doc/pie_map_ns_sum.png)
 
-#### `#ds/p-min`
+
+#### `#ds/p-sum*` - column wise sum
+``` clojure
+user> #ds/p-sum* [(range 10) [20 1 2 23 8 3 7 4 6 5] (reverse (range 4 14))]
+```
+![""](doc/pie_s_ns_sum_c.png)
 
 ``` clojure
-user> (let [data {:a (range 4 14) :b (reverse (range 2 12))}]
-        #ds/p-min data)
-{:a (4 5 6 7 8 9 10 11 12 13), :b (11 10 9 8 7 6 5 4 3 2)}
+user> #ds/p-sum* {:a (range 10), :b [20 1 2 23 8 3 7 4 6 5], :c (reverse (range 4 14))}
 ```
-!["sequence - min pie chart"](/doc/pie_map_ns_min.png)
+![""](doc/pie_map_ns_sum_c.png)
+
+
+#### `#ds/p-max` - row wise max
+
+``` clojure
+user> #ds/p-max [(range 10) [20 1 2 23 8 3 7 4 6 5] (reverse (range 4 14))]
+```
+![""](doc/pie_s_ns_max.png)
+
+``` clojure
+user> #ds/p-max {:a (range 10), :b [20 1 2 23 8 3 7 4 6 5], :c (reverse (range 4 14))}
+```
+![""](doc/pie_map_ns_max.png)
+
+
+#### `#ds/p-max*` - column wise max
+
+``` clojure
+user> #ds/p-max* [(range 10) [20 1 2 23 8 3 7 4 6 5] (reverse (range 4 14))]
+```
+![""](doc/pie_s_ns_max_c.png)
+
+``` clojure
+user> #ds/p-max* {:a (range 10), :b [20 1 2 23 8 3 7 4 6 5], :c (reverse (range 4 14))}
+```
+![""](doc/pie_map_ns_max_c.png)
+
+
+#### `#ds/p-min` - row wise min
+
+``` clojure
+user> #ds/p-min [(range 10) [20 1 2 23 8 3 7 4 6 5] (reverse (range 4 14))]
+```
+![""](doc/pie_s_ns_min.png)
+
+``` clojure
+user> #ds/p-min {:a (range 10), :b [20 1 2 23 8 3 7 4 6 5], :c (reverse (range 4 14))}
+```
+![""](doc/pie_map_ns_min.png)
+
+
+#### `#ds/p-min*` - column wise min
+
+``` clojure
+user> #ds/p-min* [(range 10) [20 1 2 23 8 3 7 4 6 5] (reverse (range 4 14))]
+```
+![""](doc/pie_s_ns_min_c.png)
+
+``` clojure
+user> #ds/p-min* {:a (range 10), :b [20 1 2 23 8 3 7 4 6 5], :c (reverse (range 4 14))}
+```
+![""](doc/pie_map_ns_min_c.png)
+
 
 ### Graphs
 
