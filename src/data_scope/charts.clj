@@ -77,7 +77,10 @@
   `(do (view-chart ~chart-builder
                    (-> (empty-chart
                         ~empty-chart-fn
-                        ~(str title-prefix " - " form))
+                        ~(str (if (not (empty? title-prefix))
+                                (str title-prefix " - ")
+                                "")
+                              form))
                        ~chart-modifier-fn)
                    ~applicator
                    ~op
@@ -86,10 +89,10 @@
        ~form))
 
 (defn category-chart-scope [& args]
-  (apply save-scope (partial build-category-chart) args))
+  (apply scope (partial build-category-chart) args))
 
 (defn pie-chart-scope [& args]
-  (apply save-scope (partial build-pie-chart) args))
+  (apply scope (partial build-pie-chart) args))
 
 
 (defn vectorize-items [data] (mapv vector data))
@@ -327,9 +330,11 @@
     "Create a scope (data inspection) for a chart."
     [chart-builder empty-chart-fn
      applicator op form & {:keys [post-apply-fn
-                                  chart-modifier-fn]
+                                  chart-modifier-fn
+                                  title-prefix]
                            :or   {post-apply-fn     identity
-                                  chart-modifier-fn identity}}]
+                                  chart-modifier-fn identity
+                                  title-prefix ""}}]
     `(do
        (println "``` clojure")
        (println "user>" *tag* '~form)
@@ -340,7 +345,10 @@
        (save-chart ~chart-builder
                    (-> (empty-chart
                         ~empty-chart-fn
-                        '~form)
+                        ~(str (if (not (empty? title-prefix))
+                                (str title-prefix " - ")
+                                "")
+                              form))
                        ~chart-modifier-fn)
                    ~applicator
                    ~op
