@@ -35,6 +35,46 @@ Data-scope includes a number of reader tools for visualizing Clojure data.
 
 Currently there are readers tags for visualizing data as both charts and graphs:
 
+### Graphs
+
+The graph tags are:
+
+* `#ds/g` - *graph viz*
+* `#ds/t` - *tree viz*
+* `#ds/trie` - *trie viz*
+* `#ds/dot` - *dot graph viz*
+
+#### Graph Examples
+
+#### `#ds/g`
+
+``` clojure
+user> (let [data {:a [:b :c]
+                  :b [:c]
+                  :c [:a]}]
+        #ds/g data)
+{:a [:b :c], :b [:c], :c [:a]}
+```
+!["graph example"](/doc/graph.png)
+
+#### `#ds/t`
+
+``` clojure
+user> (let [data [[1 [2 3]] [4 [5]]]]
+        #ds/t data)
+[[1 [2 3]] [4 [5]]]
+```
+!["tree example"](/doc/tree.png)
+
+#### `#ds/trie`
+
+``` clojure
+user> (let [data '([1 2] ([3 4] ([5 6 7])))]
+        #ds/trie data)
+([1 2] ([3 4] ([5 6 7])))
+```
+!["trie example"](/doc/trie.png)
+
 ### Charts
 
 Each of the chart tags may visualize:
@@ -85,6 +125,8 @@ The tags are:
 * `#ds/p-sum*` - *column wise summed pie chart*
 * `#ds/p-max*` - *column wise maximum pie chart*
 * `#ds/p-min*` - *column wise minimum pie chart*
+* `#ds/hf` - *histogram frequency chart*
+* `#ds/hd` - *histogram density chart*
 
 #### Chart Examples
 
@@ -567,50 +609,48 @@ user> #ds/p-min* {:a (range 10), :b [20 1 2 23 8 3 7 4 6 5], :c (reverse (range 
 ![""](doc/pie_map_ns_min_c.png)
 
 
-### Graphs
-
-The graph tags are:
-
-* `#ds/g` - *graph viz*
-* `#ds/t` - *tree viz*
-* `#ds/trie` - *trie viz*
-* `#ds/d` - *dot graph viz*
-
-#### Graph Examples
-
-#### `#ds/g`
+#### `#ds/hf`
 
 ``` clojure
-user> (let [data {:a [:b :c]
-                  :b [:c]
-                  :c [:a]}]
-        #ds/g data)
-{:a [:b :c], :b [:c], :c [:a]}
+user> #ds/hf [8 8 8 8 2 2 2 3 4 7 7 7 1 1 1]
 ```
-!["graph example"](/doc/graph.png)
-
-#### `#ds/t`
+![""](doc/histogram_f_ns.png)
 
 ``` clojure
-user> (let [data [[1 [2 3]] [4 [5]]]]
-        #ds/t data)
-[[1 [2 3]] [4 [5]]]
+user> #ds/hf [(range 10) [8 8 8 8 2 2 2 3 4 7 7 7 1 1 1]]
 ```
-!["tree example"](/doc/tree.png)
-
-#### `#ds/trie`
+![""](doc/histogram_f_s_ns.png)
 
 ``` clojure
-user> (let [data '([1 2] ([3 4] ([5 6 7])))]
-        #ds/trie data)
-([1 2] ([3 4] ([5 6 7])))
+user> #ds/hf {:a (range 10), :b [8 8 8 8 2 2 2 3 4 7 7 7 1 1 1]}
 ```
-!["trie example"](/doc/trie.png)
+![""](doc/histogram_f_map_ns.png)
 
+
+#### `#ds/hd`
+
+``` clojure
+user> #ds/hd [8 8 8 8 2 2 2 3 4 7 7 7 1 1 1]
+```
+![""](doc/histogram_d_ns.png)
+
+``` clojure
+user> #ds/hd [(range 10) [8 8 8 8 2 2 2 3 4 7 7 7 1 1 1]]
+```
+![""](doc/histogram_d_s_ns.png)
+
+``` clojure
+user> #ds/hd {:a (range 10), :b [8 8 8 8 2 2 2 3 4 7 7 7 1 1 1]}
+```
+![""](doc/histogram_d_map_ns.png)
+
+
+## Contributors
+
+James Sofra (@sofra)
 
 ## License
 
-Copyright © 2016 FIXME
+Copyright © 2016 James Sofra
 
-Distributed under the Eclipse Public License either version 1.0 or (at
-your option) any later version.
+Distributed under the Eclipse Public License, the same as Clojure.

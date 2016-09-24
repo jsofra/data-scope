@@ -311,6 +311,39 @@
   (scope-pie-col form min
                  :title-prefix "column min"))
 
+;; histograms
+
+(defn histogram-chart
+  ([title density? data]
+   (charts/histogram (flatten data)
+                     :x-label ""
+                     :title title
+                     :density density?))
+  ([title density? _ data]
+   (histogram-chart title density? data)))
+
+(defn view-histogram
+  [applicator op data title density?]
+  (incanter/view
+   (apply histogram-chart title density?
+          ((op-applicator applicator data) op))))
+
+(defn histogram-scope
+  "Create a scope (data inspection) for a chart."
+  [applicator op form density?]
+  `(do (view-histogram ~applicator
+                       ~op
+                       ~form
+                       ~(str form)
+                       ~density?)
+       ~form))
+
+(defn scope-histogram-frequency [form]
+  (histogram-scope apply-row-op var-identity form false))
+
+(defn scope-histogram-density [form]
+  (histogram-scope apply-row-op var-identity form true))
+
 (comment
 
   ;; used to generate docs

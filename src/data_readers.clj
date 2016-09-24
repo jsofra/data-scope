@@ -38,7 +38,10 @@
  ds/p-min  data-scope.charts/scope-pie-min
  ds/p-min* data-scope.charts/scope-pie-min*
 
+ ds/hf      data-scope.charts/scope-histogram-frequency
+ ds/hd      data-scope.charts/scope-histogram-density
+
  ds/g    data-scope.graphs/scope-graph
  ds/t    data-scope.graphs/scope-tree
  ds/trie data-scope.graphs/scope-trie
- ds/d    data-scope.graphs/scope-dot}
+ ds/dot  data-scope.graphs/scope-dot}
