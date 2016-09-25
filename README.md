@@ -33,7 +33,88 @@ to get the reader tags working. Using a `~/.boot/profile.boot` file:
 
 Data-scope includes a number of reader tools for visualizing Clojure data.
 
-Currently there are readers tags for visualizing data as both charts and graphs:
+Currently there are readers tags for visualizing data as both charts, graphs, tables and trees.
+There is also support for pretty printing data. See all the usage examples below for the details.
+
+### Inspectors
+
+The inspector tags are:
+
+* `#ds/i` - *inspect the Clojure data structure in a tree inspector*
+* `#ds/it` *inspect the data in a table inspector*
+
+#### `#ds/i`
+
+``` clojure
+user> (let [data [{:a 4 :b [4 5] :c [{:b 4 :n {:v {:d {:f [4 4]}}}}]}]]
+        #ds/i data)
+[{:a 4 :b [4 5] :c [{:b 4 :n {:v {:d {:f [4 4]}}}}]}]
+```
+![""](/doc/inspect.png)
+
+#### `#ds/it`
+
+``` clojure
+user> (let [data [{:first-name "James" :last-name "Sofra" :age 36} {:first-name "Ada" :last-name "Lovelace":age 201 }]]
+        #ds/it data)
+[{:first-name "James" :last-name "Sofra" :age 36} {:first-name "Ada" :last-name "Lovelace":age 201 }]
+```
+![""](/doc/it_s_map.png)
+
+``` clojure
+user> (let [data [(range 9 19) (range 4 14) (range 2 12) (range 20 30)]]
+        #ds/it data)
+[(9 10 11 12 13 14 15 16 17 18) (4 5 6 7 8 9 10 11 12 13) (2 3 4 5 6 7 8 9 10 11) (20 21 22 23 24 25 26 27 28 29)]
+```
+![""](/doc/it_s_s.png)
+
+### Pretty Print
+
+The pretty print tags are:
+
+* `#ds/pp` - *Pretty print a form*
+* `#ds/pt` - *Print data as a table*
+
+#### `#ds/pp`
+
+``` clojure
+user> (let [data [{:a 4 :b (range 20) :c [{:b 4 :n {:v {:d {:f [4 4]}}}}]}]]
+        #ds/pp data)
+
+[{:a 4,
+  :b (0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19),
+  :c [{:b 4, :n {:v {:d {:f [4 4]}}}}]}]
+
+[{:a 4, :b (0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19), :c [{:b 4, :n {:v {:d {:f [4 4]}}}}]}]
+```
+
+#### `#ds/pt`
+
+``` clojure
+user> (let [data [{:first-name "James" :last-name "Sofra" :age 36} {:first-name "Ada" :last-name "Lovelace":age 201 }]]
+        #ds/pt data)
+
+| :first-name | :last-name | :age |
+|-------------+------------+------|
+|       James |      Sofra |   36 |
+|         Ada |   Lovelace |  201 |
+
+[{:first-name "James" :last-name "Sofra" :age 36} {:first-name "Ada" :last-name "Lovelace":age 201 }]
+```
+
+``` clojure
+user> (let [data [(range 9 19) (range 4 14) (range 2 12) (range 20 30)]]
+        #ds/pt data)
+
+|  0 |  1 |  2 |  3 |  4 |  5 |  6 |  7 |  8 |  9 |
+|----+----+----+----+----+----+----+----+----+----|
+|  9 | 10 | 11 | 12 | 13 | 14 | 15 | 16 | 17 | 18 |
+|  4 |  5 |  6 |  7 |  8 |  9 | 10 | 11 | 12 | 13 |
+|  2 |  3 |  4 |  5 |  6 |  7 |  8 |  9 | 10 | 11 |
+| 20 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 |
+
+[(9 10 11 12 13 14 15 16 17 18) (4 5 6 7 8 9 10 11 12 13) (2 3 4 5 6 7 8 9 10 11) (20 21 22 23 24 25 26 27 28 29)]
+```
 
 ### Graphs
 

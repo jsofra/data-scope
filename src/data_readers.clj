@@ -41,7 +41,13 @@
  ds/hf      data-scope.charts/scope-histogram-frequency
  ds/hd      data-scope.charts/scope-histogram-density
 
- ds/g    data-scope.graphs/scope-graph
- ds/t    data-scope.graphs/scope-tree
- ds/trie data-scope.graphs/scope-trie
- ds/dot  data-scope.graphs/scope-dot}
+ ds/graph data-scope.graphs/scope-graph
+ ds/tree  data-scope.graphs/scope-tree
+ ds/trie  data-scope.graphs/scope-trie
+ ds/dot   data-scope.graphs/scope-dot
+
+ ds/pp    data-scope.pprint/scope-pprint
+ ds/pt    data-scope.pprint/scope-print-table
+
+ ds/i  data-scope.inspect/scope-inspect-tree
+ ds/it data-scope.inspect/scope-inspect-table}
