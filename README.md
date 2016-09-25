@@ -14,7 +14,9 @@ add the following to the `:user` profile in `~/.lein/profiles.clj`:
 
     :dependencies [[jsofra/data-scope "0.1.0"]]
     :injections [(require 'data-scope.charts)
-                 (require 'data-scope.graphs)]
+                 (require 'data-scope.graphs)
+                 (require 'data-scope.inspect)
+                 (require 'data-scope.pprint)]
 
 #### Boot
 
@@ -26,6 +28,8 @@ to get the reader tags working. Using a `~/.boot/profile.boot` file:
 
 (require 'data-scope.charts)
 (require 'data-scope.graphs)
+(require 'data-scope.inspect)
+(require 'data-scope.pprint)
 (boot.core/load-data-readers!)
 ```
 
