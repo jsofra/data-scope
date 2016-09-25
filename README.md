@@ -125,7 +125,7 @@ user> (let [data [(range 9 19) (range 4 14) (range 2 12) (range 20 30)]]
 The graph tags are:
 
 * `#ds/g` - *graph viz*
-* `#ds/t` - *tree viz*
+* `#ds/tree` - *tree viz*
 * `#ds/trie` - *trie viz*
 * `#ds/dot` - *dot graph viz*
 
@@ -146,7 +146,7 @@ user> (let [data {:a [:b :c]
 
 ``` clojure
 user> (let [data [[1 [2 3]] [4 [5]]]]
-        #ds/t data)
+        #ds/tree data)
 [[1 [2 3]] [4 [5]]]
 ```
 !["tree example"](/doc/tree.png)
