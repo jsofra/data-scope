@@ -30,7 +30,6 @@ to get the reader tags working. Using a `~/.boot/profile.boot` file:
 (require 'data-scope.graphs)
 (require 'data-scope.inspect)
 (require 'data-scope.pprint)
-(boot.core/load-data-readers!)
 ```
 
 ## Usage
