@@ -25,12 +25,11 @@ to get the reader tags working. Using a `~/.boot/profile.boot` file:
 
 ```
 (set-env! :dependencies #(conj % '[jsofra/data-scope "0.1.0"]))
-
+(boot.core/load-data-readers!)
 (require 'data-scope.charts)
 (require 'data-scope.graphs)
 (require 'data-scope.inspect)
 (require 'data-scope.pprint)
-(boot.core/load-data-readers!)
 ```
 
 ## Usage
@@ -124,25 +123,25 @@ user> (let [data [(range 9 19) (range 4 14) (range 2 12) (range 20 30)]]
 
 The graph tags are:
 
-* `#ds/g` - *graph viz*
+* `#ds/graph` - *graph viz*
 * `#ds/tree` - *tree viz*
 * `#ds/trie` - *trie viz*
 * `#ds/dot` - *dot graph viz*
 
 #### Graph Examples
 
-#### `#ds/g`
+#### `#ds/graph`
 
 ``` clojure
 user> (let [data {:a [:b :c]
                   :b [:c]
                   :c [:a]}]
-        #ds/g data)
+        #ds/graph data)
 {:a [:b :c], :b [:c], :c [:a]}
 ```
 !["graph example"](/doc/graph.png)
 
-#### `#ds/t`
+#### `#ds/tree`
 
 ``` clojure
 user> (let [data [[1 [2 3]] [4 [5]]]]
@@ -733,6 +732,7 @@ user> #ds/hd {:a (range 10), :b [8 8 8 8 2 2 2 3 4 7 7 7 1 1 1]}
 ## Contributors
 
 James Sofra (@sofra)
+Denis Korzunov (https://github.com/disya2)
 
 ## License
 

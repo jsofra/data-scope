@@ -65,7 +65,7 @@
                         (-> ((op-applicator applicator data) op)
                             post-application-fn))))
 
-(defn ^:dynamic scope
+(defn ^:dynamic ^:private scope
   "Create a scope (data inspection) for a chart."
   [chart-builder empty-chart-fn
    applicator op form & {:keys [post-apply-fn
@@ -74,19 +74,21 @@
                          :or   {post-apply-fn     identity
                                 chart-modifier-fn identity
                                 title-prefix ""}}]
-  `(do (view-chart ~chart-builder
-                   (-> (empty-chart
-                        ~empty-chart-fn
-                        ~(str (if (not (empty? title-prefix))
-                                (str title-prefix " - ")
-                                "")
-                              form))
-                       ~chart-modifier-fn)
-                   ~applicator
-                   ~op
-                   ~form
-                   ~post-apply-fn)
-       ~form))
+  `(let [form# ~form
+         title# (str (if (not (empty? ~title-prefix))
+                              (str ~title-prefix " - ")
+                              "")
+                            form#)]
+     (view-chart ~chart-builder
+                 (-> (empty-chart
+                      ~empty-chart-fn
+                      title#)
+                     ~chart-modifier-fn)
+                 ~applicator
+                 ~op
+                 form#
+                 ~post-apply-fn)
+       form#))
 
 (defn category-chart-scope [& args]
   (apply scope (partial build-category-chart) args))

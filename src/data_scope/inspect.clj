@@ -10,5 +10,7 @@
                                data))
        inspector/inspect-table))
 
-(defn scope-inspect-tree [form] `(do ('~inspector/inspect-tree ~form) ~form))
-(defn scope-inspect-table [form] `(do (~inspect-table ~form) ~form))
+(defn scope-inspect-tree [form]
+  `(let [form# ~form] ('~inspector/inspect-tree form#) form#))
+(defn scope-inspect-table [form]
+  `(let [form# ~form] (~inspect-table form#) form#))

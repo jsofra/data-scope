@@ -20,7 +20,7 @@
 
 (def view-dot (comp viz/view-image viz/dot->image))
 
-(defn scope [f form] `(do (~f ~form) ~form))
+(defn ^:private scope [f form] `(let [form# ~form] (~f form#) form#))
 
 (defn scope-graph [form] (scope `view-graph form))
 (defn scope-tree  [form] (scope `view-tree form))
