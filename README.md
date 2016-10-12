@@ -7,7 +7,7 @@ A Clojure library inspired by [Spyscope](https://github.com/dgrnbrg/spyscope) to
 
 #### Leiningen
 
-Add `[jsofra/data-scope "0.1.1"]` to your project.clj's `:dependencies`.
+Add `[jsofra/data-scope "0.1.2"]` to your project.clj's `:dependencies`.
 
 If you want data-scope to be automatically loaded and available in every project,
 add the following to the `:user` profile in `~/.lein/profiles.clj`:
@@ -24,7 +24,7 @@ After requiring the namespace, you must also run `(boot.core/load-data-readers!)
 to get the reader tags working. Using a `~/.boot/profile.boot` file:
 
 ```
-(set-env! :dependencies #(conj % '[jsofra/data-scope "0.1.0"]))
+(set-env! :dependencies #(conj % '[jsofra/data-scope "0.1.2"]))
 (boot.core/load-data-readers!)
 (require 'data-scope.charts)
 (require 'data-scope.graphs)
