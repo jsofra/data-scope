@@ -171,6 +171,10 @@ Each of the chart tags may visualize:
   * {:a (range 10) :b (reverse (range 10))}
   * except `#ds/p` which can visualize a map with numeric values as values
     * {:a 1 :b 2}
+* Reference types (atom, agent, var, ref) containing any of the above data types.
+ * A watch will be added and the chart will update on state transition of the reference.
+ * See an example in the `#ds/b` examples below.
+ * The is no reference type support at this time for histograms.
 
 The tags are:
 
@@ -230,6 +234,17 @@ user> #ds/b [(range 10) [20 1 2 23 8 3 7 4 6 5] (reverse (range 4 14))]
 user> #ds/b {:a (range 10), :b [20 1 2 23 8 3 7 4 6 5], :c (reverse (range 4 14))}
 ```
 ![""](doc/bar_map_ns.png)
+
+``` clojure
+user> (def foo (atom (range 10)))
+#'user/foo
+user> #ds/b foo
+Watching chart with watch - :ds-chart-watcher-d60f0bdc-418e-4f55-8d98-5d449b3dcac1
+(0 1 2 3 4 5 6 7 8 9)
+user> (swap! foo reverse)
+(9 8 7 6 5 4 3 2 1 0)
+```
+![""](doc/bar_atom_ns.png)
 
 
 #### `#ds/b-sum` - row wise sum

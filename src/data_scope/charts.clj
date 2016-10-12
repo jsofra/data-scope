@@ -65,6 +65,17 @@
                         (-> ((op-applicator applicator data) op)
                             post-application-fn))))
 
+(defn add-chart-watch!
+  [data-ref chart-builder chart applicator op post-application-fn]
+  (let [watch-key (keyword (str "ds-chart-watcher-" (java.util.UUID/randomUUID)))]
+    (println "Watching chart with watch -" watch-key)
+    (add-watch data-ref watch-key
+               (fn [_ _ _ data]
+                 (.. chart getCategoryPlot getDataset clear)
+                 (apply chart-builder chart
+                        (-> ((op-applicator applicator data) op)
+                            post-application-fn))))))
+
 (defn ^:dynamic ^:private scope
   "Create a scope (data inspection) for a chart."
   [chart-builder empty-chart-fn
@@ -73,21 +84,23 @@
                                 title-prefix]
                          :or   {post-apply-fn     identity
                                 chart-modifier-fn identity
-                                title-prefix ""}}]
-  `(let [form# ~form
+                                title-prefix      ""}}]
+  `(let [form#  ~form
          title# (str (if (not (empty? ~title-prefix))
-                              (str ~title-prefix " - ")
-                              "")
-                            form#)]
-     (view-chart ~chart-builder
-                 (-> (empty-chart
-                      ~empty-chart-fn
-                      title#)
-                     ~chart-modifier-fn)
-                 ~applicator
-                 ~op
-                 form#
-                 ~post-apply-fn)
+                       (str ~title-prefix " - ")
+                       "")
+                     form#)
+         chart# (-> (empty-chart
+                     ~empty-chart-fn
+                     title#)
+                    ~chart-modifier-fn)
+         form#  (if (instance? clojure.lang.IRef form#)
+                  (do
+                    (add-chart-watch! form# ~chart-builder chart#
+                                      ~applicator ~op ~post-apply-fn)
+                    @form#)
+                  form#)]
+     (view-chart ~chart-builder chart# ~applicator ~op form# ~post-apply-fn)
        form#))
 
 (defn category-chart-scope [& args]
