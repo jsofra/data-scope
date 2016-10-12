@@ -1,4 +1,4 @@
-(defproject jsofra/data-scope "0.1.2-SNAPSHOT"
+(defproject jsofra/data-scope "0.1.2"
   :description "Tools for interactively examining data."
   :url "https://github.com/jsofra/data-scope"
   :license {:name "Eclipse Public License"

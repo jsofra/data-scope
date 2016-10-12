@@ -2,6 +2,10 @@
 
 ## [Unreleased]
 
+## [0.1.2] - 2016-20-13
+### Fixed
+- For ref types return the ref instance not the data.
+
 ## [0.1.1] - 2016-20-12
 ### Added
 - Support for tagging reference types (atom, agent, var, ref) with chart tags.
@@ -12,7 +16,8 @@
 
 ## 0.1.0 - 2016-09-25
 ### Added
-- Intial Release!
+- Initial Release!
 
-[Unreleased]: https://github.com/your-name/data-scope/compare/0.1.1...HEAD
-[0.1.1]: https://github.com/your-name/data-scope/compare/0.1.0...0.1.1
+[Unreleased]: https://github.com/jsofra/data-scope/compare/0.1.2...HEAD
+[0.1.1]: https://github.com/jofra/data-scope/compare/0.1.0...0.1.1
+[0.1.0]: https://github.com/jofra/data-scope/compare/0.1.0-SNAPSHOT...0.1.0

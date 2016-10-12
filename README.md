@@ -12,7 +12,7 @@ Add `[jsofra/data-scope "0.1.1"]` to your project.clj's `:dependencies`.
 If you want data-scope to be automatically loaded and available in every project,
 add the following to the `:user` profile in `~/.lein/profiles.clj`:
 
-    :dependencies [[jsofra/data-scope "0.1.0"]]
+    :dependencies [[jsofra/data-scope "0.1.2"]]
     :injections [(require 'data-scope.charts)
                  (require 'data-scope.graphs)
                  (require 'data-scope.inspect)
@@ -240,9 +240,9 @@ user> (def foo (atom (range 10)))
 #'user/foo
 user> #ds/b foo
 Watching chart with watch - :ds-chart-watcher-d60f0bdc-418e-4f55-8d98-5d449b3dcac1
-(0 1 2 3 4 5 6 7 8 9)
+#atom[(0 1 2 3 4 5 6 7 8 9) 0x39b56714]
 user> (swap! foo reverse)
-(9 8 7 6 5 4 3 2 1 0)
+#atom[(9 8 7 6 5 4 3 2 1 0) 0x39b56714]
 ```
 ![""](doc/bar_atom_ns.png)
 
