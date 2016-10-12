@@ -1,16 +1,16 @@
 (ns data-scope.pprint
-  (:require [clojure.pprint]))
+  (:require [clojure.pprint :as pprint]))
 
 (defn print-table [[f :as data]]
   (->> (cond
         (map? f) [data]
         (sequential? f) [(range (count (first data)))
                          (map #(into {} (map-indexed vector %)) data)])
-      (apply clojure.pprint/print-table)))
+      (apply pprint/print-table)))
 
 (defn scope-pprint [form]
   `(let [form# ~form]
-     ('~clojure.pprint/pprint form#)
+     ('~pprint/pprint form#)
      form#))
 
 (defn scope-print-table [form]

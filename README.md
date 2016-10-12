@@ -732,6 +732,7 @@ user> #ds/hd {:a (range 10), :b [8 8 8 8 2 2 2 3 4 7 7 7 1 1 1]}
 ## Contributors
 
 James Sofra (@sofra)
+Denis Korzunov (https://github.com/disya2)
 
 ## License
 

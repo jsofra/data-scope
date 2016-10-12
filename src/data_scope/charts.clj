@@ -346,387 +346,387 @@
 (defn scope-histogram-density [form]
   (histogram-scope apply-row-op var-identity form true))
 
-;; (comment
+(comment
 
-;;   ;; used to generate docs
+  ;; used to generate docs
 
-;;   (def ^:dynamic *path* "/tmp/foo.png")
-;;   (def ^:dynamic *tag* "#ds/b")
+  (def ^:dynamic *path* "/tmp/foo.png")
+  (def ^:dynamic *tag* "#ds/b")
 
-;;   (defn save-chart
-;;     [chart-builder empty-chart applicator op data post-application-fn]
-;;     (incanter/save (apply chart-builder
-;;                           empty-chart
-;;                           (-> ((op-applicator applicator data) op)
-;;                               post-application-fn))
-;;                    *path*))
+  (defn save-chart
+    [chart-builder empty-chart applicator op data post-application-fn]
+    (incanter/save (apply chart-builder
+                          empty-chart
+                          (-> ((op-applicator applicator data) op)
+                              post-application-fn))
+                   *path*))
 
-;;   (defn save-scope
-;;     "Create a scope (data inspection) for a chart."
-;;     [chart-builder empty-chart-fn
-;;      applicator op form & {:keys [post-apply-fn
-;;                                   chart-modifier-fn
-;;                                   title-prefix]
-;;                            :or   {post-apply-fn     identity
-;;                                   chart-modifier-fn identity
-;;                                   title-prefix ""}}]
-;;     `(do
-;;        (println "``` clojure")
-;;        (println "user>" *tag* '~form)
-;;        (println "```")
-;;        (println  (str "![\"\"](" *path* ")"))
-;;        (println " ")
+  (defn save-scope
+    "Create a scope (data inspection) for a chart."
+    [chart-builder empty-chart-fn
+     applicator op form & {:keys [post-apply-fn
+                                  chart-modifier-fn
+                                  title-prefix]
+                           :or   {post-apply-fn     identity
+                                  chart-modifier-fn identity
+                                  title-prefix ""}}]
+    `(do
+       (println "``` clojure")
+       (println "user>" *tag* '~form)
+       (println "```")
+       (println  (str "![\"\"](" *path* ")"))
+       (println " ")
 
-;;        (save-chart ~chart-builder
-;;                    (-> (empty-chart
-;;                         ~empty-chart-fn
-;;                         ~(str (if (not (empty? title-prefix))
-;;                                 (str title-prefix " - ")
-;;                                 "")
-;;                               form))
-;;                        ~chart-modifier-fn)
-;;                    ~applicator
-;;                    ~op
-;;                    ~form
-;;                    ~post-apply-fn)
-;;        ~form))
+       (save-chart ~chart-builder
+                   (-> (empty-chart
+                        ~empty-chart-fn
+                        ~(str (if (not (empty? title-prefix))
+                                (str title-prefix " - ")
+                                "")
+                              form))
+                       ~chart-modifier-fn)
+                   ~applicator
+                   ~op
+                   ~form
+                   ~post-apply-fn)
+       ~form))
 
-;;   (binding [scope save-scope]
+  (binding [scope save-scope]
 
-;;     ;; bar
+    ;; bar
 
-;;     (binding [*tag* "#ds/b"]
-;;       (println " ")
-;;       (println "#### `#ds/b`")
-;;       (println " ")
-;;       (binding [*path* "doc/bar_ns.png"]
-;;         #ds/b (range 10))
-;;       (binding [*path* "doc/bar_s_ns.png"]
-;;         #ds/b [(range 10) [20 1 2 23 8 3 7 4 6 5] (reverse (range 4 14))])
-;;       (binding [*path* "doc/bar_map_ns.png"]
-;;         #ds/b {:a (range 10) :b [20 1 2 23 8 3 7 4 6 5] :c (reverse (range 4 14))}))
+    (binding [*tag* "#ds/b"]
+      (println " ")
+      (println "#### `#ds/b`")
+      (println " ")
+      (binding [*path* "doc/bar_ns.png"]
+        #ds/b (range 10))
+      (binding [*path* "doc/bar_s_ns.png"]
+        #ds/b [(range 10) [20 1 2 23 8 3 7 4 6 5] (reverse (range 4 14))])
+      (binding [*path* "doc/bar_map_ns.png"]
+        #ds/b {:a (range 10) :b [20 1 2 23 8 3 7 4 6 5] :c (reverse (range 4 14))}))
 
-;;     (binding [*tag* "#ds/b-sum"]
-;;       (println " ")
-;;       (println "#### `#ds/b-sum` - row wise sum")
-;;       (println " ")
-;;       (binding [*path* "doc/bar_s_ns_sum.png"]
-;;         #ds/b-sum [(range 10) [20 1 2 23 8 3 7 4 6 5] (reverse (range 4 14))])
-;;       (binding [*path* "doc/bar_map_ns_sum.png"]
-;;         #ds/b-sum {:a (range 10) :b [20 1 2 23 8 3 7 4 6 5] :c (reverse (range 4 14))}))
+    (binding [*tag* "#ds/b-sum"]
+      (println " ")
+      (println "#### `#ds/b-sum` - row wise sum")
+      (println " ")
+      (binding [*path* "doc/bar_s_ns_sum.png"]
+        #ds/b-sum [(range 10) [20 1 2 23 8 3 7 4 6 5] (reverse (range 4 14))])
+      (binding [*path* "doc/bar_map_ns_sum.png"]
+        #ds/b-sum {:a (range 10) :b [20 1 2 23 8 3 7 4 6 5] :c (reverse (range 4 14))}))
 
-;;     (binding [*tag* "#ds/b-sum*"]
-;;       (println " ")
-;;       (println "#### `#ds/b-sum*` - column wise sum")
-;;       (println " ")
-;;       (binding [*path* "doc/bar_s_ns_sum_c.png"]
-;;         #ds/b-sum* [(range 10) [20 1 2 23 8 3 7 4 6 5] (reverse (range 4 14))])
-;;       (binding [*path* "doc/bar_map_ns_sum_c.png"]
-;;         #ds/b-sum* {:a (range 10) :b [20 1 2 23 8 3 7 4 6 5] :c (reverse (range 4 14))}))
+    (binding [*tag* "#ds/b-sum*"]
+      (println " ")
+      (println "#### `#ds/b-sum*` - column wise sum")
+      (println " ")
+      (binding [*path* "doc/bar_s_ns_sum_c.png"]
+        #ds/b-sum* [(range 10) [20 1 2 23 8 3 7 4 6 5] (reverse (range 4 14))])
+      (binding [*path* "doc/bar_map_ns_sum_c.png"]
+        #ds/b-sum* {:a (range 10) :b [20 1 2 23 8 3 7 4 6 5] :c (reverse (range 4 14))}))
 
-;;     (binding [*tag* "#ds/b-max"]
-;;       (println " ")
-;;       (println "#### `#ds/b-max` - row wise max")
-;;       (println " ")
-;;       (binding [*path* "doc/bar_s_ns_max.png"]
-;;         #ds/b-max [(range 10) [20 1 2 23 8 3 7 4 6 5] (reverse (range 4 14))])
-;;       (binding [*path* "doc/bar_map_ns_max.png"]
-;;         #ds/b-max {:a (range 10) :b [20 1 2 23 8 3 7 4 6 5] :c (reverse (range 4 14))}))
+    (binding [*tag* "#ds/b-max"]
+      (println " ")
+      (println "#### `#ds/b-max` - row wise max")
+      (println " ")
+      (binding [*path* "doc/bar_s_ns_max.png"]
+        #ds/b-max [(range 10) [20 1 2 23 8 3 7 4 6 5] (reverse (range 4 14))])
+      (binding [*path* "doc/bar_map_ns_max.png"]
+        #ds/b-max {:a (range 10) :b [20 1 2 23 8 3 7 4 6 5] :c (reverse (range 4 14))}))
 
-;;     (binding [*tag* "#ds/b-max*"]
-;;       (println " ")
-;;       (println "#### `#ds/b-max*` - column wise max")
-;;       (println " ")
-;;       (binding [*path* "doc/bar_s_ns_max_c.png"]
-;;         #ds/b-max* [(range 10) [20 1 2 23 8 3 7 4 6 5] (reverse (range 4 14))])
-;;       (binding [*path* "doc/bar_map_ns_max_c.png"]
-;;         #ds/b-max* {:a (range 10) :b [20 1 2 23 8 3 7 4 6 5] :c (reverse (range 4 14))}))
+    (binding [*tag* "#ds/b-max*"]
+      (println " ")
+      (println "#### `#ds/b-max*` - column wise max")
+      (println " ")
+      (binding [*path* "doc/bar_s_ns_max_c.png"]
+        #ds/b-max* [(range 10) [20 1 2 23 8 3 7 4 6 5] (reverse (range 4 14))])
+      (binding [*path* "doc/bar_map_ns_max_c.png"]
+        #ds/b-max* {:a (range 10) :b [20 1 2 23 8 3 7 4 6 5] :c (reverse (range 4 14))}))
 
-;;     (binding [*tag* "#ds/b-min"]
-;;       (println " ")
-;;       (println "#### `#ds/b-min` - row wise min")
-;;       (println " ")
-;;       (binding [*path* "doc/bar_s_ns_min.png"]
-;;         #ds/b-min [(range 10) [20 1 2 23 8 3 7 4 6 5] (reverse (range 4 14))])
-;;       (binding [*path* "doc/bar_map_ns_min.png"]
-;;         #ds/b-min {:a (range 10) :b [20 1 2 23 8 3 7 4 6 5] :c (reverse (range 4 14))}))
+    (binding [*tag* "#ds/b-min"]
+      (println " ")
+      (println "#### `#ds/b-min` - row wise min")
+      (println " ")
+      (binding [*path* "doc/bar_s_ns_min.png"]
+        #ds/b-min [(range 10) [20 1 2 23 8 3 7 4 6 5] (reverse (range 4 14))])
+      (binding [*path* "doc/bar_map_ns_min.png"]
+        #ds/b-min {:a (range 10) :b [20 1 2 23 8 3 7 4 6 5] :c (reverse (range 4 14))}))
 
-;;     (binding [*tag* "#ds/b-min*"]
-;;       (println " ")
-;;       (println "#### `#ds/b-min*` - column wise min")
-;;       (println " ")
-;;       (binding [*path* "doc/bar_s_ns_min_c.png"]
-;;         #ds/b-min* [(range 10) [20 1 2 23 8 3 7 4 6 5] (reverse (range 4 14))])
-;;       (binding [*path* "doc/bar_map_ns_min_c.png"]
-;;         #ds/b-min* {:a (range 10) :b [20 1 2 23 8 3 7 4 6 5] :c (reverse (range 4 14))}))
+    (binding [*tag* "#ds/b-min*"]
+      (println " ")
+      (println "#### `#ds/b-min*` - column wise min")
+      (println " ")
+      (binding [*path* "doc/bar_s_ns_min_c.png"]
+        #ds/b-min* [(range 10) [20 1 2 23 8 3 7 4 6 5] (reverse (range 4 14))])
+      (binding [*path* "doc/bar_map_ns_min_c.png"]
+        #ds/b-min* {:a (range 10) :b [20 1 2 23 8 3 7 4 6 5] :c (reverse (range 4 14))}))
 
-;;     ;; line
+    ;; line
 
-;;     (binding [*tag* "#ds/l"]
-;;       (println " ")
-;;       (println "#### `#ds/l`")
-;;       (println " ")
-;;       (binding [*path* "doc/line_ns.png"]
-;;         #ds/l (range 10))
-;;       (binding [*path* "doc/line_s_ns.png"]
-;;         #ds/l [(range 10) [20 1 2 23 8 3 7 4 6 5] (reverse (range 4 14))])
-;;       (binding [*path* "doc/line_map_ns.png"]
-;;         #ds/l {:a (range 10) :b [20 1 2 23 8 3 7 4 6 5] :c (reverse (range 4 14))}))
+    (binding [*tag* "#ds/l"]
+      (println " ")
+      (println "#### `#ds/l`")
+      (println " ")
+      (binding [*path* "doc/line_ns.png"]
+        #ds/l (range 10))
+      (binding [*path* "doc/line_s_ns.png"]
+        #ds/l [(range 10) [20 1 2 23 8 3 7 4 6 5] (reverse (range 4 14))])
+      (binding [*path* "doc/line_map_ns.png"]
+        #ds/l {:a (range 10) :b [20 1 2 23 8 3 7 4 6 5] :c (reverse (range 4 14))}))
 
-;;     (binding [*tag* "#ds/l-sum"]
-;;       (println " ")
-;;       (println "#### `#ds/l-sum` - row wise sum")
-;;       (println " ")
-;;       (binding [*path* "doc/line_s_ns_sum.png"]
-;;         #ds/l-sum [(range 10) [20 1 2 23 8 3 7 4 6 5] (reverse (range 4 14))])
-;;       (binding [*path* "doc/line_map_ns_sum.png"]
-;;         #ds/l-sum {:a (range 10) :b [20 1 2 23 8 3 7 4 6 5] :c (reverse (range 4 14))}))
+    (binding [*tag* "#ds/l-sum"]
+      (println " ")
+      (println "#### `#ds/l-sum` - row wise sum")
+      (println " ")
+      (binding [*path* "doc/line_s_ns_sum.png"]
+        #ds/l-sum [(range 10) [20 1 2 23 8 3 7 4 6 5] (reverse (range 4 14))])
+      (binding [*path* "doc/line_map_ns_sum.png"]
+        #ds/l-sum {:a (range 10) :b [20 1 2 23 8 3 7 4 6 5] :c (reverse (range 4 14))}))
 
-;;     (binding [*tag* "#ds/l-sum*"]
-;;       (println " ")
-;;       (println "#### `#ds/l-sum*` - column wise sum")
-;;       (println " ")
-;;       (binding [*path* "doc/line_s_ns_sum_c.png"]
-;;         #ds/l-sum* [(range 10) [20 1 2 23 8 3 7 4 6 5] (reverse (range 4 14))])
-;;       (binding [*path* "doc/line_map_ns_sum_c.png"]
-;;         #ds/l-sum* {:a (range 10) :b [20 1 2 23 8 3 7 4 6 5] :c (reverse (range 4 14))}))
+    (binding [*tag* "#ds/l-sum*"]
+      (println " ")
+      (println "#### `#ds/l-sum*` - column wise sum")
+      (println " ")
+      (binding [*path* "doc/line_s_ns_sum_c.png"]
+        #ds/l-sum* [(range 10) [20 1 2 23 8 3 7 4 6 5] (reverse (range 4 14))])
+      (binding [*path* "doc/line_map_ns_sum_c.png"]
+        #ds/l-sum* {:a (range 10) :b [20 1 2 23 8 3 7 4 6 5] :c (reverse (range 4 14))}))
 
-;;     (binding [*tag* "#ds/l-max"]
-;;       (println " ")
-;;       (println "#### `#ds/l-max` - row wise max")
-;;       (println " ")
-;;       (binding [*path* "doc/line_s_ns_max.png"]
-;;         #ds/l-max [(range 10) [20 1 2 23 8 3 7 4 6 5] (reverse (range 4 14))])
-;;       (binding [*path* "doc/line_map_ns_max.png"]
-;;         #ds/l-max {:a (range 10) :b [20 1 2 23 8 3 7 4 6 5] :c (reverse (range 4 14))}))
+    (binding [*tag* "#ds/l-max"]
+      (println " ")
+      (println "#### `#ds/l-max` - row wise max")
+      (println " ")
+      (binding [*path* "doc/line_s_ns_max.png"]
+        #ds/l-max [(range 10) [20 1 2 23 8 3 7 4 6 5] (reverse (range 4 14))])
+      (binding [*path* "doc/line_map_ns_max.png"]
+        #ds/l-max {:a (range 10) :b [20 1 2 23 8 3 7 4 6 5] :c (reverse (range 4 14))}))
 
-;;     (binding [*tag* "#ds/l-max*"]
-;;       (println " ")
-;;       (println "#### `#ds/l-max*` - column wise max")
-;;       (println " ")
-;;       (binding [*path* "doc/line_s_ns_max_c.png"]
-;;         #ds/l-max* [(range 10) [20 1 2 23 8 3 7 4 6 5] (reverse (range 4 14))])
-;;       (binding [*path* "doc/line_map_ns_max_c.png"]
-;;         #ds/l-max* {:a (range 10) :b [20 1 2 23 8 3 7 4 6 5] :c (reverse (range 4 14))}))
+    (binding [*tag* "#ds/l-max*"]
+      (println " ")
+      (println "#### `#ds/l-max*` - column wise max")
+      (println " ")
+      (binding [*path* "doc/line_s_ns_max_c.png"]
+        #ds/l-max* [(range 10) [20 1 2 23 8 3 7 4 6 5] (reverse (range 4 14))])
+      (binding [*path* "doc/line_map_ns_max_c.png"]
+        #ds/l-max* {:a (range 10) :b [20 1 2 23 8 3 7 4 6 5] :c (reverse (range 4 14))}))
 
-;;     (binding [*tag* "#ds/l-min"]
-;;       (println " ")
-;;       (println "#### `#ds/l-min` - row wise min")
-;;       (println " ")
-;;       (binding [*path* "doc/line_s_ns_min.png"]
-;;         #ds/l-min [(range 10) [20 1 2 23 8 3 7 4 6 5] (reverse (range 4 14))])
-;;       (binding [*path* "doc/line_map_ns_min.png"]
-;;         #ds/l-min {:a (range 10) :b [20 1 2 23 8 3 7 4 6 5] :c (reverse (range 4 14))}))
+    (binding [*tag* "#ds/l-min"]
+      (println " ")
+      (println "#### `#ds/l-min` - row wise min")
+      (println " ")
+      (binding [*path* "doc/line_s_ns_min.png"]
+        #ds/l-min [(range 10) [20 1 2 23 8 3 7 4 6 5] (reverse (range 4 14))])
+      (binding [*path* "doc/line_map_ns_min.png"]
+        #ds/l-min {:a (range 10) :b [20 1 2 23 8 3 7 4 6 5] :c (reverse (range 4 14))}))
 
-;;     (binding [*tag* "#ds/l-min*"]
-;;       (println " ")
-;;       (println "#### `#ds/l-min*` - column wise min")
-;;       (println " ")
-;;       (binding [*path* "doc/line_s_ns_min_c.png"]
-;;         #ds/l-min* [(range 10) [20 1 2 23 8 3 7 4 6 5] (reverse (range 4 14))])
-;;       (binding [*path* "doc/line_map_ns_min_c.png"]
-;;         #ds/l-min* {:a (range 10) :b [20 1 2 23 8 3 7 4 6 5] :c (reverse (range 4 14))}))
+    (binding [*tag* "#ds/l-min*"]
+      (println " ")
+      (println "#### `#ds/l-min*` - column wise min")
+      (println " ")
+      (binding [*path* "doc/line_s_ns_min_c.png"]
+        #ds/l-min* [(range 10) [20 1 2 23 8 3 7 4 6 5] (reverse (range 4 14))])
+      (binding [*path* "doc/line_map_ns_min_c.png"]
+        #ds/l-min* {:a (range 10) :b [20 1 2 23 8 3 7 4 6 5] :c (reverse (range 4 14))}))
 
-;;     ;; area
+    ;; area
 
-;;     (binding [*tag* "#ds/a"]
-;;       (println " ")
-;;       (println "#### `#ds/a`")
-;;       (println " ")
-;;       (binding [*path* "doc/area_ns.png"]
-;;         #ds/a (range 10))
-;;       (binding [*path* "doc/area_s_ns.png"]
-;;         #ds/a [(range 10) [20 1 2 23 8 3 7 4 6 5] (reverse (range 4 14))])
-;;       (binding [*path* "doc/area_map_ns.png"]
-;;         #ds/a {:a (range 10) :b [20 1 2 23 8 3 7 4 6 5] :c (reverse (range 4 14))}))
+    (binding [*tag* "#ds/a"]
+      (println " ")
+      (println "#### `#ds/a`")
+      (println " ")
+      (binding [*path* "doc/area_ns.png"]
+        #ds/a (range 10))
+      (binding [*path* "doc/area_s_ns.png"]
+        #ds/a [(range 10) [20 1 2 23 8 3 7 4 6 5] (reverse (range 4 14))])
+      (binding [*path* "doc/area_map_ns.png"]
+        #ds/a {:a (range 10) :b [20 1 2 23 8 3 7 4 6 5] :c (reverse (range 4 14))}))
 
-;;     (binding [*tag* "#ds/a-sum"]
-;;       (println " ")
-;;       (println "#### `#ds/a-sum` - row wise sum")
-;;       (println " ")
-;;       (binding [*path* "doc/area_s_ns_sum.png"]
-;;         #ds/a-sum [(range 10) [20 1 2 23 8 3 7 4 6 5] (reverse (range 4 14))])
-;;       (binding [*path* "doc/area_map_ns_sum.png"]
-;;         #ds/a-sum {:a (range 10) :b [20 1 2 23 8 3 7 4 6 5] :c (reverse (range 4 14))}))
+    (binding [*tag* "#ds/a-sum"]
+      (println " ")
+      (println "#### `#ds/a-sum` - row wise sum")
+      (println " ")
+      (binding [*path* "doc/area_s_ns_sum.png"]
+        #ds/a-sum [(range 10) [20 1 2 23 8 3 7 4 6 5] (reverse (range 4 14))])
+      (binding [*path* "doc/area_map_ns_sum.png"]
+        #ds/a-sum {:a (range 10) :b [20 1 2 23 8 3 7 4 6 5] :c (reverse (range 4 14))}))
 
-;;     (binding [*tag* "#ds/a-sum*"]
-;;       (println " ")
-;;       (println "#### `#ds/a-sum*` - column wise sum")
-;;       (println " ")
-;;       (binding [*path* "doc/area_s_ns_sum_c.png"]
-;;         #ds/a-sum* [(range 10) [20 1 2 23 8 3 7 4 6 5] (reverse (range 4 14))])
-;;       (binding [*path* "doc/area_map_ns_sum_c.png"]
-;;         #ds/a-sum* {:a (range 10) :b [20 1 2 23 8 3 7 4 6 5] :c (reverse (range 4 14))}))
+    (binding [*tag* "#ds/a-sum*"]
+      (println " ")
+      (println "#### `#ds/a-sum*` - column wise sum")
+      (println " ")
+      (binding [*path* "doc/area_s_ns_sum_c.png"]
+        #ds/a-sum* [(range 10) [20 1 2 23 8 3 7 4 6 5] (reverse (range 4 14))])
+      (binding [*path* "doc/area_map_ns_sum_c.png"]
+        #ds/a-sum* {:a (range 10) :b [20 1 2 23 8 3 7 4 6 5] :c (reverse (range 4 14))}))
 
-;;     (binding [*tag* "#ds/a-max"]
-;;       (println " ")
-;;       (println "#### `#ds/a-max` - row wise max")
-;;       (println " ")
-;;       (binding [*path* "doc/area_s_ns_max.png"]
-;;         #ds/a-max [(range 10) [20 1 2 23 8 3 7 4 6 5] (reverse (range 4 14))])
-;;       (binding [*path* "doc/area_map_ns_max.png"]
-;;         #ds/a-max {:a (range 10) :b [20 1 2 23 8 3 7 4 6 5] :c (reverse (range 4 14))}))
+    (binding [*tag* "#ds/a-max"]
+      (println " ")
+      (println "#### `#ds/a-max` - row wise max")
+      (println " ")
+      (binding [*path* "doc/area_s_ns_max.png"]
+        #ds/a-max [(range 10) [20 1 2 23 8 3 7 4 6 5] (reverse (range 4 14))])
+      (binding [*path* "doc/area_map_ns_max.png"]
+        #ds/a-max {:a (range 10) :b [20 1 2 23 8 3 7 4 6 5] :c (reverse (range 4 14))}))
 
-;;     (binding [*tag* "#ds/a-max*"]
-;;       (println " ")
-;;       (println "#### `#ds/a-max*` - column wise max")
-;;       (println " ")
-;;       (binding [*path* "doc/area_s_ns_max_c.png"]
-;;         #ds/a-max* [(range 10) [20 1 2 23 8 3 7 4 6 5] (reverse (range 4 14))])
-;;       (binding [*path* "doc/area_map_ns_max_c.png"]
-;;         #ds/a-max* {:a (range 10) :b [20 1 2 23 8 3 7 4 6 5] :c (reverse (range 4 14))}))
+    (binding [*tag* "#ds/a-max*"]
+      (println " ")
+      (println "#### `#ds/a-max*` - column wise max")
+      (println " ")
+      (binding [*path* "doc/area_s_ns_max_c.png"]
+        #ds/a-max* [(range 10) [20 1 2 23 8 3 7 4 6 5] (reverse (range 4 14))])
+      (binding [*path* "doc/area_map_ns_max_c.png"]
+        #ds/a-max* {:a (range 10) :b [20 1 2 23 8 3 7 4 6 5] :c (reverse (range 4 14))}))
 
-;;     (binding [*tag* "#ds/a-min"]
-;;       (println " ")
-;;       (println "#### `#ds/a-min` - row wise min")
-;;       (println " ")
-;;       (binding [*path* "doc/area_s_ns_min.png"]
-;;         #ds/a-min [(range 10) [20 1 2 23 8 3 7 4 6 5] (reverse (range 4 14))])
-;;       (binding [*path* "doc/area_map_ns_min.png"]
-;;         #ds/a-min {:a (range 10) :b [20 1 2 23 8 3 7 4 6 5] :c (reverse (range 4 14))}))
+    (binding [*tag* "#ds/a-min"]
+      (println " ")
+      (println "#### `#ds/a-min` - row wise min")
+      (println " ")
+      (binding [*path* "doc/area_s_ns_min.png"]
+        #ds/a-min [(range 10) [20 1 2 23 8 3 7 4 6 5] (reverse (range 4 14))])
+      (binding [*path* "doc/area_map_ns_min.png"]
+        #ds/a-min {:a (range 10) :b [20 1 2 23 8 3 7 4 6 5] :c (reverse (range 4 14))}))
 
-;;     (binding [*tag* "#ds/a-min*"]
-;;       (println " ")
-;;       (println "#### `#ds/a-min*` - column wise min")
-;;       (println " ")
-;;       (binding [*path* "doc/area_s_ns_min_c.png"]
-;;         #ds/a-min* [(range 10) [20 1 2 23 8 3 7 4 6 5] (reverse (range 4 14))])
-;;       (binding [*path* "doc/area_map_ns_min_c.png"]
-;;         #ds/a-min* {:a (range 10) :b [20 1 2 23 8 3 7 4 6 5] :c (reverse (range 4 14))}))
+    (binding [*tag* "#ds/a-min*"]
+      (println " ")
+      (println "#### `#ds/a-min*` - column wise min")
+      (println " ")
+      (binding [*path* "doc/area_s_ns_min_c.png"]
+        #ds/a-min* [(range 10) [20 1 2 23 8 3 7 4 6 5] (reverse (range 4 14))])
+      (binding [*path* "doc/area_map_ns_min_c.png"]
+        #ds/a-min* {:a (range 10) :b [20 1 2 23 8 3 7 4 6 5] :c (reverse (range 4 14))}))
 
-;;     ;; stacked-area
+    ;; stacked-area
 
-;;     (binding [*tag* "#ds/sa"]
-;;       (println " ")
-;;       (println "#### `#ds/sa`")
-;;       (println " ")
-;;       (binding [*path* "doc/stacked-area_ns.png"]
-;;         #ds/sa (range 10))
-;;       (binding [*path* "doc/stacked-area_s_ns.png"]
-;;         #ds/sa [(range 10) [20 1 2 23 8 3 7 4 6 5] (reverse (range 4 14))])
-;;       (binding [*path* "doc/stacked-area_map_ns.png"]
-;;         #ds/sa {:a (range 10) :b [20 1 2 23 8 3 7 4 6 5] :c (reverse (range 4 14))}))
+    (binding [*tag* "#ds/sa"]
+      (println " ")
+      (println "#### `#ds/sa`")
+      (println " ")
+      (binding [*path* "doc/stacked-area_ns.png"]
+        #ds/sa (range 10))
+      (binding [*path* "doc/stacked-area_s_ns.png"]
+        #ds/sa [(range 10) [20 1 2 23 8 3 7 4 6 5] (reverse (range 4 14))])
+      (binding [*path* "doc/stacked-area_map_ns.png"]
+        #ds/sa {:a (range 10) :b [20 1 2 23 8 3 7 4 6 5] :c (reverse (range 4 14))}))
 
-;;     (binding [*tag* "#ds/sa-sum"]
-;;       (println " ")
-;;       (println "#### `#ds/sa-sum` - row wise sum")
-;;       (println " ")
-;;       (binding [*path* "doc/stacked-area_s_ns_sum.png"]
-;;         #ds/sa-sum [(range 10) [20 1 2 23 8 3 7 4 6 5] (reverse (range 4 14))])
-;;       (binding [*path* "doc/stacked-area_map_ns_sum.png"]
-;;         #ds/sa-sum {:a (range 10) :b [20 1 2 23 8 3 7 4 6 5] :c (reverse (range 4 14))}))
+    (binding [*tag* "#ds/sa-sum"]
+      (println " ")
+      (println "#### `#ds/sa-sum` - row wise sum")
+      (println " ")
+      (binding [*path* "doc/stacked-area_s_ns_sum.png"]
+        #ds/sa-sum [(range 10) [20 1 2 23 8 3 7 4 6 5] (reverse (range 4 14))])
+      (binding [*path* "doc/stacked-area_map_ns_sum.png"]
+        #ds/sa-sum {:a (range 10) :b [20 1 2 23 8 3 7 4 6 5] :c (reverse (range 4 14))}))
 
-;;     (binding [*tag* "#ds/sa-sum*"]
-;;       (println " ")
-;;       (println "#### `#ds/sa-sum*` - column wise sum")
-;;       (println " ")
-;;       (binding [*path* "doc/stacked-area_s_ns_sum_c.png"]
-;;         #ds/sa-sum* [(range 10) [20 1 2 23 8 3 7 4 6 5] (reverse (range 4 14))])
-;;       (binding [*path* "doc/stacked-area_map_ns_sum_c.png"]
-;;         #ds/sa-sum* {:a (range 10) :b [20 1 2 23 8 3 7 4 6 5] :c (reverse (range 4 14))}))
+    (binding [*tag* "#ds/sa-sum*"]
+      (println " ")
+      (println "#### `#ds/sa-sum*` - column wise sum")
+      (println " ")
+      (binding [*path* "doc/stacked-area_s_ns_sum_c.png"]
+        #ds/sa-sum* [(range 10) [20 1 2 23 8 3 7 4 6 5] (reverse (range 4 14))])
+      (binding [*path* "doc/stacked-area_map_ns_sum_c.png"]
+        #ds/sa-sum* {:a (range 10) :b [20 1 2 23 8 3 7 4 6 5] :c (reverse (range 4 14))}))
 
-;;     (binding [*tag* "#ds/sa-max"]
-;;       (println " ")
-;;       (println "#### `#ds/sa-max` - row wise max")
-;;       (println " ")
-;;       (binding [*path* "doc/stacked-area_s_ns_max.png"]
-;;         #ds/sa-max [(range 10) [20 1 2 23 8 3 7 4 6 5] (reverse (range 4 14))])
-;;       (binding [*path* "doc/stacked-area_map_ns_max.png"]
-;;         #ds/sa-max {:a (range 10) :b [20 1 2 23 8 3 7 4 6 5] :c (reverse (range 4 14))}))
+    (binding [*tag* "#ds/sa-max"]
+      (println " ")
+      (println "#### `#ds/sa-max` - row wise max")
+      (println " ")
+      (binding [*path* "doc/stacked-area_s_ns_max.png"]
+        #ds/sa-max [(range 10) [20 1 2 23 8 3 7 4 6 5] (reverse (range 4 14))])
+      (binding [*path* "doc/stacked-area_map_ns_max.png"]
+        #ds/sa-max {:a (range 10) :b [20 1 2 23 8 3 7 4 6 5] :c (reverse (range 4 14))}))
 
-;;     (binding [*tag* "#ds/sa-max*"]
-;;       (println " ")
-;;       (println "#### `#ds/sa-max*` - column wise max")
-;;       (println " ")
-;;       (binding [*path* "doc/stacked-area_s_ns_max_c.png"]
-;;         #ds/sa-max* [(range 10) [20 1 2 23 8 3 7 4 6 5] (reverse (range 4 14))])
-;;       (binding [*path* "doc/stacked-area_map_ns_max_c.png"]
-;;         #ds/sa-max* {:a (range 10) :b [20 1 2 23 8 3 7 4 6 5] :c (reverse (range 4 14))}))
+    (binding [*tag* "#ds/sa-max*"]
+      (println " ")
+      (println "#### `#ds/sa-max*` - column wise max")
+      (println " ")
+      (binding [*path* "doc/stacked-area_s_ns_max_c.png"]
+        #ds/sa-max* [(range 10) [20 1 2 23 8 3 7 4 6 5] (reverse (range 4 14))])
+      (binding [*path* "doc/stacked-area_map_ns_max_c.png"]
+        #ds/sa-max* {:a (range 10) :b [20 1 2 23 8 3 7 4 6 5] :c (reverse (range 4 14))}))
 
-;;     (binding [*tag* "#ds/sa-min"]
-;;       (println " ")
-;;       (println "#### `#ds/sa-min` - row wise min")
-;;       (println " ")
-;;       (binding [*path* "doc/stacked-area_s_ns_min.png"]
-;;         #ds/sa-min [(range 10) [20 1 2 23 8 3 7 4 6 5] (reverse (range 4 14))])
-;;       (binding [*path* "doc/stacked-area_map_ns_min.png"]
-;;         #ds/sa-min {:a (range 10) :b [20 1 2 23 8 3 7 4 6 5] :c (reverse (range 4 14))}))
+    (binding [*tag* "#ds/sa-min"]
+      (println " ")
+      (println "#### `#ds/sa-min` - row wise min")
+      (println " ")
+      (binding [*path* "doc/stacked-area_s_ns_min.png"]
+        #ds/sa-min [(range 10) [20 1 2 23 8 3 7 4 6 5] (reverse (range 4 14))])
+      (binding [*path* "doc/stacked-area_map_ns_min.png"]
+        #ds/sa-min {:a (range 10) :b [20 1 2 23 8 3 7 4 6 5] :c (reverse (range 4 14))}))
 
-;;     (binding [*tag* "#ds/sa-min*"]
-;;       (println " ")
-;;       (println "#### `#ds/sa-min*` - column wise min")
-;;       (println " ")
-;;       (binding [*path* "doc/stacked-area_s_ns_min_c.png"]
-;;         #ds/sa-min* [(range 10) [20 1 2 23 8 3 7 4 6 5] (reverse (range 4 14))])
-;;       (binding [*path* "doc/stacked-area_map_ns_min_c.png"]
-;;         #ds/sa-min* {:a (range 10) :b [20 1 2 23 8 3 7 4 6 5] :c (reverse (range 4 14))}))
+    (binding [*tag* "#ds/sa-min*"]
+      (println " ")
+      (println "#### `#ds/sa-min*` - column wise min")
+      (println " ")
+      (binding [*path* "doc/stacked-area_s_ns_min_c.png"]
+        #ds/sa-min* [(range 10) [20 1 2 23 8 3 7 4 6 5] (reverse (range 4 14))])
+      (binding [*path* "doc/stacked-area_map_ns_min_c.png"]
+        #ds/sa-min* {:a (range 10) :b [20 1 2 23 8 3 7 4 6 5] :c (reverse (range 4 14))}))
 
-;;     ;; pie
+    ;; pie
 
-;;     (binding [*tag* "#ds/p"]
-;;       (println " ")
-;;       (println "#### `#ds/p`")
-;;       (println " ")
-;;       (binding [*path* "doc/pie_ns.png"]
-;;         #ds/p (range 10))
-;;       (binding [*path* "doc/pie_s_ns.png"]
-;;         #ds/p [(range 2) [8 1 2] [2 4]])
-;;       (binding [*path* "doc/pie_map_ns.png"]
-;;         #ds/p {:a 10 :b 2 :c 6}))
+    (binding [*tag* "#ds/p"]
+      (println " ")
+      (println "#### `#ds/p`")
+      (println " ")
+      (binding [*path* "doc/pie_ns.png"]
+        #ds/p (range 10))
+      (binding [*path* "doc/pie_s_ns.png"]
+        #ds/p [(range 2) [8 1 2] [2 4]])
+      (binding [*path* "doc/pie_map_ns.png"]
+        #ds/p {:a 10 :b 2 :c 6}))
 
-;;     (binding [*tag* "#ds/p-sum"]
-;;       (println " ")
-;;       (println "#### `#ds/p-sum` - row wise sum")
-;;       (println " ")
-;;       (binding [*path* "doc/pie_s_ns_sum.png"]
-;;         #ds/p-sum [(range 10) [20 1 2 23 8 3 7 4 6 5] (reverse (range 4 14))])
-;;       (binding [*path* "doc/pie_map_ns_sum.png"]
-;;         #ds/p-sum {:a (range 10) :b [20 1 2 23 8 3 7 4 6 5] :c (reverse (range 4 14))}))
+    (binding [*tag* "#ds/p-sum"]
+      (println " ")
+      (println "#### `#ds/p-sum` - row wise sum")
+      (println " ")
+      (binding [*path* "doc/pie_s_ns_sum.png"]
+        #ds/p-sum [(range 10) [20 1 2 23 8 3 7 4 6 5] (reverse (range 4 14))])
+      (binding [*path* "doc/pie_map_ns_sum.png"]
+        #ds/p-sum {:a (range 10) :b [20 1 2 23 8 3 7 4 6 5] :c (reverse (range 4 14))}))
 
-;;     (binding [*tag* "#ds/p-sum*"]
-;;       (println " ")
-;;       (println "#### `#ds/p-sum*` - column wise sum")
-;;       (binding [*path* "doc/pie_s_ns_sum_c.png"]
-;;         #ds/p-sum* [(range 10) [20 1 2 23 8 3 7 4 6 5] (reverse (range 4 14))])
-;;       (binding [*path* "doc/pie_map_ns_sum_c.png"]
-;;         #ds/p-sum* {:a (range 10) :b [20 1 2 23 8 3 7 4 6 5] :c (reverse (range 4 14))}))
+    (binding [*tag* "#ds/p-sum*"]
+      (println " ")
+      (println "#### `#ds/p-sum*` - column wise sum")
+      (binding [*path* "doc/pie_s_ns_sum_c.png"]
+        #ds/p-sum* [(range 10) [20 1 2 23 8 3 7 4 6 5] (reverse (range 4 14))])
+      (binding [*path* "doc/pie_map_ns_sum_c.png"]
+        #ds/p-sum* {:a (range 10) :b [20 1 2 23 8 3 7 4 6 5] :c (reverse (range 4 14))}))
 
-;;     (binding [*tag* "#ds/p-max"]
-;;       (println " ")
-;;       (println "#### `#ds/p-max` - row wise max")
-;;       (println " ")
-;;       (binding [*path* "doc/pie_s_ns_max.png"]
-;;         #ds/p-max [(range 10) [20 1 2 23 8 3 7 4 6 5] (reverse (range 4 14))])
-;;       (binding [*path* "doc/pie_map_ns_max.png"]
-;;         #ds/p-max {:a (range 10) :b [20 1 2 23 8 3 7 4 6 5] :c (reverse (range 4 14))}))
+    (binding [*tag* "#ds/p-max"]
+      (println " ")
+      (println "#### `#ds/p-max` - row wise max")
+      (println " ")
+      (binding [*path* "doc/pie_s_ns_max.png"]
+        #ds/p-max [(range 10) [20 1 2 23 8 3 7 4 6 5] (reverse (range 4 14))])
+      (binding [*path* "doc/pie_map_ns_max.png"]
+        #ds/p-max {:a (range 10) :b [20 1 2 23 8 3 7 4 6 5] :c (reverse (range 4 14))}))
 
-;;     (binding [*tag* "#ds/p-max*"]
-;;       (println " ")
-;;       (println "#### `#ds/p-max*` - column wise max")
-;;       (println " ")
-;;       (binding [*path* "doc/pie_s_ns_max_c.png"]
-;;         #ds/p-max* [(range 10) [20 1 2 23 8 3 7 4 6 5] (reverse (range 4 14))])
-;;       (binding [*path* "doc/pie_map_ns_max_c.png"]
-;;         #ds/p-max* {:a (range 10) :b [20 1 2 23 8 3 7 4 6 5] :c (reverse (range 4 14))}))
+    (binding [*tag* "#ds/p-max*"]
+      (println " ")
+      (println "#### `#ds/p-max*` - column wise max")
+      (println " ")
+      (binding [*path* "doc/pie_s_ns_max_c.png"]
+        #ds/p-max* [(range 10) [20 1 2 23 8 3 7 4 6 5] (reverse (range 4 14))])
+      (binding [*path* "doc/pie_map_ns_max_c.png"]
+        #ds/p-max* {:a (range 10) :b [20 1 2 23 8 3 7 4 6 5] :c (reverse (range 4 14))}))
 
-;;     (binding [*tag* "#ds/p-min"]
-;;       (println " ")
-;;       (println "#### `#ds/p-min` - row wise min")
-;;       (println " ")
-;;       (binding [*path* "doc/pie_s_ns_min.png"]
-;;         #ds/p-min [(range 10) [20 1 2 23 8 3 7 4 6 5] (reverse (range 4 14))])
-;;       (binding [*path* "doc/pie_map_ns_min.png"]
-;;         #ds/p-min {:a (range 10) :b [20 1 2 23 8 3 7 4 6 5] :c (reverse (range 4 14))}))
+    (binding [*tag* "#ds/p-min"]
+      (println " ")
+      (println "#### `#ds/p-min` - row wise min")
+      (println " ")
+      (binding [*path* "doc/pie_s_ns_min.png"]
+        #ds/p-min [(range 10) [20 1 2 23 8 3 7 4 6 5] (reverse (range 4 14))])
+      (binding [*path* "doc/pie_map_ns_min.png"]
+        #ds/p-min {:a (range 10) :b [20 1 2 23 8 3 7 4 6 5] :c (reverse (range 4 14))}))
 
-;;     (binding [*tag* "#ds/p-min*"]
-;;       (println " ")
-;;       (println "#### `#ds/p-min*` - column wise min")
-;;       (println " ")
-;;       (binding [*path* "doc/pie_s_ns_min_c.png"]
-;;         #ds/p-min* [(range 10) [20 1 2 23 8 3 7 4 6 5] (reverse (range 4 14))])
-;;       (binding [*path* "doc/pie_map_ns_min_c.png"]
-;;         #ds/p-min* {:a (range 10) :b [20 1 2 23 8 3 7 4 6 5] :c (reverse (range 4 14))}))
+    (binding [*tag* "#ds/p-min*"]
+      (println " ")
+      (println "#### `#ds/p-min*` - column wise min")
+      (println " ")
+      (binding [*path* "doc/pie_s_ns_min_c.png"]
+        #ds/p-min* [(range 10) [20 1 2 23 8 3 7 4 6 5] (reverse (range 4 14))])
+      (binding [*path* "doc/pie_map_ns_min_c.png"]
+        #ds/p-min* {:a (range 10) :b [20 1 2 23 8 3 7 4 6 5] :c (reverse (range 4 14))}))
 
-;;     )
+    )
 
-;;   )
+  )
