@@ -94,14 +94,14 @@
                      ~empty-chart-fn
                      title#)
                     ~chart-modifier-fn)
-         form#  (if (instance? clojure.lang.IRef form#)
+         data#  (if (instance? clojure.lang.IRef form#)
                   (do
                     (add-chart-watch! form# ~chart-builder chart#
                                       ~applicator ~op ~post-apply-fn)
                     @form#)
                   form#)]
-     (view-chart ~chart-builder chart# ~applicator ~op form# ~post-apply-fn)
-       form#))
+     (view-chart ~chart-builder chart# ~applicator ~op data# ~post-apply-fn)
+     form#))
 
 (defn category-chart-scope [& args]
   (apply scope (partial build-category-chart) args))
