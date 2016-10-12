@@ -19,5 +19,6 @@
 - Initial Release!
 
 [Unreleased]: https://github.com/jsofra/data-scope/compare/0.1.2...HEAD
-[0.1.1]: https://github.com/jofra/data-scope/compare/0.1.0...0.1.1
-[0.1.0]: https://github.com/jofra/data-scope/compare/0.1.0-SNAPSHOT...0.1.0
+[0.1.2]: https://github.com/jsofra/data-scope/compare/0.1.1...0.1.2
+[0.1.1]: https://github.com/jsofra/data-scope/compare/0.1.0...0.1.1
+[0.1.0]: https://github.com/jsofra/data-scope/compare/0.1.0-SNAPSHOT...0.1.0
