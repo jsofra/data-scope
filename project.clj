@@ -6,4 +6,6 @@
   :dependencies [[org.clojure/clojure "1.8.0"]
                  [incanter/incanter-core "1.5.7"]
                  [incanter/incanter-charts "1.5.7"]
-                 [rhizome "0.2.7"]])
+                 [rhizome "0.2.7"]
+
+                 [org.clojure/core.cache "0.6.5"]])

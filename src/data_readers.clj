@@ -1,4 +1,6 @@
 {ds/b      data-scope.charts/scope-bar
+ ds/pb      data-scope.charts/scope-bar-p
+ ds/ab      data-scope.charts/scope-bar-a
  ds/b-sum  data-scope.charts/scope-bar-sum
  ds/b-sum* data-scope.charts/scope-bar-sum*
  ds/b-max  data-scope.charts/scope-bar-max

@@ -1,6 +1,8 @@
 (ns data-scope.charts
   (:require [incanter.core :as incanter]
-            [incanter.charts :as charts]))
+            [incanter.charts :as charts]
+
+            [clojure.core.cache :as cache]))
 
 (defn apply-row-op [data op]
   (mapv #(apply op %) data))
@@ -65,42 +67,76 @@
                         (-> ((op-applicator applicator data) op)
                             post-application-fn))))
 
+(defn set-chart-data
+  [chart-builder chart data applicator op post-application-fn]
+  (.. chart getCategoryPlot getDataset clear)
+  (apply chart-builder chart
+         (-> ((op-applicator applicator data) op)
+             post-application-fn)))
+
 (defn add-chart-watch!
   [data-ref chart-builder chart applicator op post-application-fn]
   (let [watch-key (keyword (str "ds-chart-watcher-" (java.util.UUID/randomUUID)))]
     (println "Watching chart with watch -" watch-key)
     (add-watch data-ref watch-key
                (fn [_ _ _ data]
-                 (.. chart getCategoryPlot getDataset clear)
-                 (apply chart-builder chart
-                        (-> ((op-applicator applicator data) op)
-                            post-application-fn))))))
+                 (set-chart-data chart-builder chart data applicator op post-application-fn)))))
+
+(def tagged-expr-cache
+  (atom (cache/lru-cache-factory {})))
+
+(defn set-expr-cache! [cache-factory & opts]
+  (swap! tagged-expr-cache #(apply cache-factory % opts)))
+
+(defn update-data!
+  [cached-data new-data accumulating?]
+  (if accumulating?
+    (swap! cached-data conj new-data)
+    (reset! cached-data new-data)))
+
+(defn chart-title [title-prefix expr]
+  (if-not (empty? title-prefix)
+    (str title-prefix " - " expr)
+    (str expr)))
 
 (defn ^:dynamic ^:private scope
   "Create a scope (data inspection) for a chart."
   [chart-builder empty-chart-fn
    applicator op form & {:keys [post-apply-fn
                                 chart-modifier-fn
-                                title-prefix]
+                                title-prefix
+                                persist?
+                                accumulating?]
                          :or   {post-apply-fn     identity
                                 chart-modifier-fn identity
-                                title-prefix      ""}}]
-  `(let [form#  ~form
-         title# (str (if (not (empty? ~title-prefix))
-                       (str ~title-prefix " - ")
-                       "")
-                     form#)
-         chart# (-> (empty-chart
-                     ~empty-chart-fn
-                     title#)
-                    ~chart-modifier-fn)
-         data#  (if (instance? clojure.lang.IRef form#)
-                  (do
-                    (add-chart-watch! form# ~chart-builder chart#
-                                      ~applicator ~op ~post-apply-fn)
-                    @form#)
-                  form#)]
-     (view-chart ~chart-builder chart# ~applicator ~op data# ~post-apply-fn)
+                                title-prefix      ""
+                                persist?          false
+                                accumulating?     false}}]
+  `(let [form#      ~form
+         title#     (chart-title ~title-prefix '~form)
+         expr-hash# (hash '~form)]
+     (if (and ~persist?
+              (cache/has? @tagged-expr-cache expr-hash#))
+       (do
+         (let [[cached-chart# cached-data#] (cache/lookup
+                                             @tagged-expr-cache
+                                             expr-hash#)]
+           (set-chart-data ~chart-builder
+                           cached-chart# (update-data! cached-data#
+                                                       form#
+                                                       accumulating?)
+                           ~applicator ~op ~post-apply-fn))
+         (swap! tagged-expr-cache cache/hit expr-hash#))
+       (let [chart# (~chart-modifier-fn (empty-chart ~empty-chart-fn title#))
+             data#  (if (instance? clojure.lang.IRef form#)
+                      (do
+                        (add-chart-watch! form# ~chart-builder chart#
+                                          ~applicator ~op ~post-apply-fn)
+                        @form#)
+                      form#)
+             data# (if ~accumulating? data# [data#])]
+         (swap! tagged-expr-cache cache/miss expr-hash# [chart# (atom data#)])
+         (view-chart ~chart-builder chart# ~applicator ~op data# ~post-apply-fn)))
      form#))
 
 (defn category-chart-scope [& args]
@@ -123,8 +159,16 @@
   (apply category-chart-scope
          `charts/bar-chart apply-col-op op form options))
 
-(defn scope-bar [form]
-  (scope-bar-row form var-identity))
+(defn scope-bar [form & options]
+  (apply scope-bar-row form var-identity options))
+
+(defn scope-bar-p [form]
+  (scope-bar form :persist? true))
+
+(defn scope-bar-a [form]
+  (scope-bar form
+             :persist? true
+             :accumulating? true))
 
 (defn scope-bar-sum [form]
   (scope-bar-row form +
