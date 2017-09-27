@@ -85,6 +85,9 @@
 (def tagged-expr-cache
   (atom (cache/lru-cache-factory {})))
 
+(defn reset-expr-cache! []
+  (reset! tagged-expr-cache (cache/lru-cache-factory {})))
+
 (defn set-expr-cache! [cache-factory & opts]
   (swap! tagged-expr-cache #(apply cache-factory % opts)))
 
@@ -99,6 +102,9 @@
     (str title-prefix " - " expr)
     (str expr)))
 
+(def ds-print-length (atom 10))
+(def ds-print-level (atom 5))
+
 (defn ^:dynamic ^:private scope
   "Create a scope (data inspection) for a chart."
   [chart-builder empty-chart-fn
@@ -112,32 +118,34 @@
                                 title-prefix      ""
                                 persist?          false
                                 accumulating?     false}}]
-  `(let [form#      ~form
-         title#     (chart-title ~title-prefix '~form)
-         expr-hash# (hash '~form)]
-     (if (and ~persist?
-              (cache/has? @tagged-expr-cache expr-hash#))
-       (do
-         (let [[cached-chart# cached-data#] (cache/lookup
-                                             @tagged-expr-cache
-                                             expr-hash#)]
-           (set-chart-data ~chart-builder
-                           cached-chart# (update-data! cached-data#
-                                                       form#
-                                                       accumulating?)
-                           ~applicator ~op ~post-apply-fn))
-         (swap! tagged-expr-cache cache/hit expr-hash#))
-       (let [chart# (~chart-modifier-fn (empty-chart ~empty-chart-fn title#))
-             data#  (if (instance? clojure.lang.IRef form#)
-                      (do
-                        (add-chart-watch! form# ~chart-builder chart#
-                                          ~applicator ~op ~post-apply-fn)
-                        @form#)
-                      form#)
-             data# (if ~accumulating? data# [data#])]
-         (swap! tagged-expr-cache cache/miss expr-hash# [chart# (atom data#)])
-         (view-chart ~chart-builder chart# ~applicator ~op data# ~post-apply-fn)))
-     form#))
+  `(binding [*print-length* @ds-print-length
+             *print-level*  @ds-print-level]
+     (let [form#      ~form
+           title#     (chart-title ~title-prefix '~form)
+           expr-hash# (hash '~form)]
+       (if (and ~persist?
+                (cache/has? @tagged-expr-cache expr-hash#))
+         (do
+           (let [[cached-chart# cached-data#] (cache/lookup
+                                               @tagged-expr-cache
+                                               expr-hash#)]
+             (set-chart-data ~chart-builder
+                             cached-chart# (update-data! cached-data#
+                                                         form#
+                                                         ~accumulating?)
+                             ~applicator ~op ~post-apply-fn))
+           (swap! tagged-expr-cache cache/hit expr-hash#))
+         (let [chart# (~chart-modifier-fn (empty-chart ~empty-chart-fn title#))
+               data#  (if (instance? clojure.lang.IRef form#)
+                        (do
+                          (add-chart-watch! form# ~chart-builder chart#
+                                            ~applicator ~op ~post-apply-fn)
+                          @form#)
+                        form#)
+               data# (if ~accumulating? [data#] data#)]
+           (swap! tagged-expr-cache cache/miss expr-hash# [chart# (atom data#)])
+           (view-chart ~chart-builder chart# ~applicator ~op data# ~post-apply-fn)))
+       form#)))
 
 (defn category-chart-scope [& args]
   (apply scope (partial build-category-chart) args))

@@ -1,6 +1,6 @@
 {ds/b      data-scope.charts/scope-bar
- ds/pb      data-scope.charts/scope-bar-p
- ds/ab      data-scope.charts/scope-bar-a
+ ds/b!     data-scope.charts/scope-bar-p
+ ds/b+     data-scope.charts/scope-bar-a
  ds/b-sum  data-scope.charts/scope-bar-sum
  ds/b-sum* data-scope.charts/scope-bar-sum*
  ds/b-max  data-scope.charts/scope-bar-max
@@ -40,16 +40,16 @@
  ds/p-min  data-scope.charts/scope-pie-min
  ds/p-min* data-scope.charts/scope-pie-min*
 
- ds/hf      data-scope.charts/scope-histogram-frequency
- ds/hd      data-scope.charts/scope-histogram-density
+ ds/hf data-scope.charts/scope-histogram-frequency
+ ds/hd data-scope.charts/scope-histogram-density
 
  ds/graph data-scope.graphs/scope-graph
  ds/tree  data-scope.graphs/scope-tree
  ds/trie  data-scope.graphs/scope-trie
  ds/dot   data-scope.graphs/scope-dot
 
- ds/pp    data-scope.pprint/scope-pprint
- ds/pt    data-scope.pprint/scope-print-table
+ ds/pp data-scope.pprint/scope-pprint
+ ds/pt data-scope.pprint/scope-print-table
 
  ds/i  data-scope.inspect/scope-inspect-tree
  ds/it data-scope.inspect/scope-inspect-table}

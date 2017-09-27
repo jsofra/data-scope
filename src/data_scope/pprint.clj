@@ -9,7 +9,6 @@
       (apply pprint/print-table)))
 
 (defn scope-pprint [form]
-  (println form)
   `(let [form# ~form]
      ('~pprint/pprint form#)
      form#))
