@@ -216,6 +216,12 @@ The tags are:
 * `#ds/hf` - *histogram frequency chart*
 * `#ds/hd` - *histogram density chart*
 
+#### Print Limits
+
+Data-scope provides print limits that mirror the Clojure core `*print-length*` and `*print-level*`.
+The Data-scope limits are provided as atoms `ds-print-length` and `ds-print-level`, these will limit the printing
+of titles and legends within the carts. They can be set just as other atoms are set, e.g. `(reset! ds-print-length 10)
+
 #### Chart Examples
 
 #### `#ds/b`
