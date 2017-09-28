@@ -157,6 +157,20 @@
 (defn vectorize-items [data] (mapv vector data))
 (defn vectorize-last-items [data] [(mapv vector (last data))])
 
+
+(defn p-and-a [name]
+  `(do
+     (defn ~(symbol (str name "-p")) [~'form]
+       (~name ~'form :persist? true))
+     (defn ~(symbol (str name "-a")) [~'form]
+       (~name ~'form
+        :persist? true
+        :accumulating? true))))
+
+(defmacro def-p-and-a [& names]
+  `(do ~@(map p-and-a names)))
+
+
 ;; bar scopes
 
 (defn scope-bar-row [form op & options]
@@ -170,41 +184,42 @@
 (defn scope-bar [form & options]
   (apply scope-bar-row form var-identity options))
 
-(defn scope-bar-p [form]
-  (scope-bar form :persist? true))
+(defn scope-bar-sum [form & options]
+  (apply scope-bar-row form + :title-prefix "row sum" options))
 
-(defn scope-bar-a [form]
-  (scope-bar form
-             :persist? true
-             :accumulating? true))
+(defn scope-bar-sum* [form & options]
+  (apply scope-bar-col form +
+         :title-prefix "column sum"
+         :post-apply-fn vectorize-last-items
+         options))
 
-(defn scope-bar-sum [form]
-  (scope-bar-row form +
-                 :title-prefix "row sum"))
+(defn scope-bar-max [form & options]
+  (apply scope-bar-row form max
+         :title-prefix "row max"
+         options))
 
-(defn scope-bar-sum* [form]
-  (scope-bar-col form +
-                 :title-prefix "column sum"
-                 :post-apply-fn vectorize-last-items))
+(defn scope-bar-max* [form & options]
+  (apply scope-bar-col form max
+         :title-prefix "column max"
+         :post-apply-fn vectorize-last-items
+         options))
 
-(defn scope-bar-max [form]
-  (scope-bar-row form max
-                 :title-prefix "row max"))
+(defn scope-bar-min [form & options]
+  (apply scope-bar-row form min
+         :title-prefix "row min"
+         options))
 
-(defn scope-bar-max* [form]
-  (scope-bar-col form max
-                 :title-prefix "column max"
-                 :post-apply-fn vectorize-last-items))
+(defn scope-bar-min* [form & options]
+  (apply scope-bar-col form min
+         :title-prefix "column min"
+         :post-apply-fn vectorize-last-items
+         options))
 
-(defn scope-bar-min [form]
-  (scope-bar-row form min
-                 :title-prefix "row min"))
-
-(defn scope-bar-min* [form]
-  (scope-bar-col form min
-                 :title-prefix "column min"
-                 :post-apply-fn vectorize-last-items))
-
+(def-p-and-a
+  scope-bar
+  scope-bar-sum scope-bar-sum*
+  scope-bar-max scope-bar-max*
+  scope-bar-min scope-bar-min*)
 
 ;; line scopes
 
@@ -216,39 +231,50 @@
   (apply category-chart-scope
          `charts/line-chart apply-col-op op form options))
 
-(defn scope-line [form]
-  (scope-line-row form var-identity))
+(defn scope-line [form & options]
+  (apply scope-line-row form var-identity options))
 
-(defn scope-line-sum [form]
-  (scope-line-row form +
-                  :title-prefix "row sum"
-                  :post-apply-fn vectorize-items))
+(defn scope-line-sum [form & options]
+  (apply scope-line-row form +
+         :title-prefix "row sum"
+         :post-apply-fn vectorize-items
+         options))
 
-(defn scope-line-sum* [form]
-  (scope-line-col form +
-                  :title-prefix "column sum"
-                  :post-apply-fn vectorize-items))
+(defn scope-line-sum* [form & options]
+  (apply scope-line-col form +
+         :title-prefix "column sum"
+         :post-apply-fn vectorize-items
+         options))
 
-(defn scope-line-max [form]
-  (scope-line-row form max
-                  :title-prefix "row max"
-                  :post-apply-fn vectorize-items))
+(defn scope-line-max [form & options]
+  (apply scope-line-row form max
+         :title-prefix "row max"
+         :post-apply-fn vectorize-items
+         options))
 
-(defn scope-line-max* [form]
-  (scope-line-col form max
-                  :title-prefix "column max"
-                  :post-apply-fn vectorize-items))
+(defn scope-line-max* [form & options]
+  (apply scope-line-col form max
+         :title-prefix "column max"
+         :post-apply-fn vectorize-items
+         options))
 
-(defn scope-line-min [form]
-  (scope-line-row form min
-                  :title-prefix "row min"
-                  :post-apply-fn vectorize-items))
+(defn scope-line-min [form & options]
+  (apply scope-line-row form min
+         :title-prefix "row min"
+         :post-apply-fn vectorize-items
+         options))
 
-(defn scope-line-min* [form]
-  (scope-line-col form min
-                  :title-prefix "column min"
-                  :post-apply-fn vectorize-items))
+(defn scope-line-min* [form & options]
+  (apply scope-line-col form min
+         :title-prefix "column min"
+         :post-apply-fn vectorize-items
+         options))
 
+(def-p-and-a
+  scope-line
+  scope-line-sum scope-line-sum*
+  scope-line-max scope-line-max*
+  scope-line-min scope-line-min*)
 
 ;; area scopes
 
@@ -260,40 +286,52 @@
   (apply category-chart-scope
          `charts/area-chart apply-col-op op form options))
 
-(defn scope-area [form]
-  (scope-area-row form var-identity
-                  :chart-modifier-fn #(charts/set-alpha % 0.5)))
+(defn scope-area [form & options]
+  (apply scope-area-row form var-identity
+         :chart-modifier-fn #(charts/set-alpha % 0.5)
+         options))
 
-(defn scope-area-sum [form]
-  (scope-area-row form +
-                  :title-prefix "row sum"
-                  :post-apply-fn vectorize-items))
+(defn scope-area-sum [form & options]
+  (apply scope-area-row form +
+         :title-prefix "row sum"
+         :post-apply-fn vectorize-items
+         options))
 
-(defn scope-area-sum* [form]
-  (scope-area-col form +
-                  :title-prefix "column sum"
-                  :post-apply-fn vectorize-items))
+(defn scope-area-sum* [form & options]
+  (apply scope-area-col form +
+         :title-prefix "column sum"
+         :post-apply-fn vectorize-items
+         options))
 
-(defn scope-area-max [form]
-  (scope-area-row form max
-                  :title-prefix "row max"
-                  :post-apply-fn vectorize-items))
+(defn scope-area-max [form & options]
+  (apply scope-area-row form max
+         :title-prefix "row max"
+         :post-apply-fn vectorize-items
+         options))
 
-(defn scope-area-max* [form]
-  (scope-area-col form max
-                  :title-prefix "column max"
-                  :post-apply-fn vectorize-items))
+(defn scope-area-max* [form & options]
+  (apply scope-area-col form max
+         :title-prefix "column max"
+         :post-apply-fn vectorize-items
+         options))
 
-(defn scope-area-min [form]
-  (scope-area-row form min
-                  :title-prefix "row min"
-                  :post-apply-fn vectorize-items))
+(defn scope-area-min [form & options]
+  (apply scope-area-row form min
+         :title-prefix "row min"
+         :post-apply-fn vectorize-items
+         options))
 
-(defn scope-area-min* [form]
-  (scope-area-col form min
-                  :title-prefix "column min"
-                  :post-apply-fn vectorize-items))
+(defn scope-area-min* [form & options]
+  (apply scope-area-col form min
+         :title-prefix "column min"
+         :post-apply-fn vectorize-items
+         options))
 
+(def-p-and-a
+  scope-area
+  scope-area-sum scope-area-sum*
+  scope-area-max scope-area-max*
+  scope-area-min scope-area-min*)
 
 ;; stacked area scopes
 
@@ -305,39 +343,50 @@
   (apply category-chart-scope
          `charts/stacked-area-chart apply-col-op op form options))
 
-(defn scope-stacked-area [form]
-  (scope-stacked-area-row form var-identity))
+(defn scope-stacked-area [form & options]
+  (apply scope-stacked-area-row form var-identity options))
 
-(defn scope-stacked-area-sum [form]
-  (scope-stacked-area-row form +
-                          :title-prefix "row sum"
-                          :post-apply-fn vectorize-items))
+(defn scope-stacked-area-sum [form & options]
+  (apply scope-stacked-area-row form +
+         :title-prefix "row sum"
+         :post-apply-fn vectorize-items
+         options))
 
-(defn scope-stacked-area-sum* [form]
-  (scope-stacked-area-col form +
-                          :title-prefix "column sum"
-                          :post-apply-fn vectorize-items))
+(defn scope-stacked-area-sum* [form & options]
+  (apply scope-stacked-area-col form +
+         :title-prefix "column sum"
+         :post-apply-fn vectorize-items
+         options))
 
-(defn scope-stacked-area-max [form]
-  (scope-stacked-area-row form max
-                          :title-prefix "row max"
-                          :post-apply-fn vectorize-items))
+(defn scope-stacked-area-max [form & options]
+  (apply scope-stacked-area-row form max
+         :title-prefix "row max"
+         :post-apply-fn vectorize-items
+         options))
 
-(defn scope-stacked-area-max* [form]
-  (scope-stacked-area-col form max
-                          :title-prefix "column max"
-                          :post-apply-fn vectorize-items))
+(defn scope-stacked-area-max* [form & options]
+  (apply scope-stacked-area-col form max
+         :title-prefix "column max"
+         :post-apply-fn vectorize-items
+         options))
 
-(defn scope-stacked-area-min [form]
-  (scope-stacked-area-row form min
-                          :title-prefix "row min"
-                          :post-apply-fn vectorize-items))
+(defn scope-stacked-area-min [form & options]
+  (apply scope-stacked-area-row form min
+         :title-prefix "row min"
+         :post-apply-fn vectorize-items
+         options))
 
-(defn scope-stacked-area-min* [form]
-  (scope-stacked-area-col form min
-                          :title-prefix "column min"
-                          :post-apply-fn vectorize-items))
+(defn scope-stacked-area-min* [form & options]
+  (apply scope-stacked-area-col form min
+         :title-prefix "column min"
+         :post-apply-fn vectorize-items
+         options))
 
+(def-p-and-a
+  scope-stacked-area
+  scope-stacked-area-sum scope-stacked-area-sum*
+  scope-stacked-area-max scope-stacked-area-max*
+  scope-stacked-area-min scope-stacked-area-min*)
 
 ;; pie scopes
 
@@ -351,32 +400,45 @@
 
 (defn seq-op-applicator [data op] (map op data))
 
-(defn scope-pie [form]
-  (pie-chart-scope `charts/pie-chart seq-op-applicator identity form))
+(defn scope-pie [form & options]
+  (apply pie-chart-scope
+         `charts/pie-chart seq-op-applicator identity form options))
 
-(defn scope-pie-sum [form]
-  (scope-pie-row form +
-                 :title-prefix "row sum"))
+(defn scope-pie-sum [form & options]
+  (apply scope-pie-row form +
+         :title-prefix "row sum"
+         options))
 
-(defn scope-pie-sum* [form]
-  (scope-pie-col form +
-                 :title-prefix "column sum"))
+(defn scope-pie-sum* [form & options]
+  (apply scope-pie-col form +
+         :title-prefix "column sum"
+         options))
 
-(defn scope-pie-max [form]
-  (scope-pie-row form max
-                 :title-prefix "row max"))
+(defn scope-pie-max [form & options]
+  (apply scope-pie-row form max
+         :title-prefix "row max"
+         options))
 
-(defn scope-pie-max* [form]
-  (scope-pie-col form max
-                 :title-prefix "column max"))
+(defn scope-pie-max* [form & options]
+  (apply scope-pie-col form max
+         :title-prefix "column max"
+         options))
 
-(defn scope-pie-min [form]
-  (scope-pie-row form min
-                 :title-prefix "row min"))
+(defn scope-pie-min [form & options]
+  (apply scope-pie-row form min
+         :title-prefix "row min"
+         options))
 
-(defn scope-pie-min* [form]
-  (scope-pie-col form min
-                 :title-prefix "column min"))
+(defn scope-pie-min* [form & options]
+  (apply scope-pie-col form min
+         :title-prefix "column min"
+         options))
+
+(def-p-and-a
+  scope-pie
+  scope-pie-sum scope-pie-sum*
+  scope-pie-max scope-pie-max*
+  scope-pie-min scope-pie-min*)
 
 ;; histograms
 
