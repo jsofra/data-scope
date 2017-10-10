@@ -13,7 +13,31 @@
      ('~pprint/pprint form#)
      form#))
 
+(defn scope-pprint-thread-last [form]
+  `((fn [x#]
+      (let [form# (->> x# ~form)]
+        ('~pprint/pprint form#)
+        form#))))
+
+(defn scope-pprint-thread-first [form]
+  `((fn [x#]
+      (let [form# (-> x# ~form)]
+        ('~pprint/pprint form#)
+        form#))))
+
 (defn scope-print-table [form]
   `(let [form# ~form]
      (~print-table form#)
      form#))
+
+(defn scope-print-table-thread-last [form]
+  `((fn [x#]
+      (let [form# (->> x# ~form)]
+        (~print-table form#)
+        form#))))
+
+(defn scope-print-table-thread-first [form]
+  `((fn [x#]
+      (let [form# (-> x# ~form)]
+        (~print-table form#)
+        form#))))

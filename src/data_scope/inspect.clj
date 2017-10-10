@@ -12,5 +12,32 @@
 
 (defn scope-inspect-tree [form]
   `(let [form# ~form] ('~inspector/inspect-tree form#) form#))
+
+(defn scope-inspect-tree-thread-last [form]
+  `((fn [x#]
+      (let [form# (->> x# ~form)]
+        ('~inspector/inspect-tree form#)
+        form#))))
+
+(defn scope-inspect-tree-thread-first [form]
+  `((fn [x#]
+      (let [form# (-> x# ~form)]
+        ('~inspector/inspect-tree form#)
+        form#))))
+
 (defn scope-inspect-table [form]
-  `(let [form# ~form] (~inspect-table form#) form#))
+  `(let [form# ~form]
+     (~inspect-table form#)
+     form#))
+
+(defn scope-inspect-table-thread-last [form]
+  `((fn [x#]
+      (let [form# (->> x# ~form)]
+        (~inspect-table form#)
+        form#))))
+
+(defn scope-inspect-table-thread-first [form]
+  `((fn [x#]
+      (let [form# (-> x# ~form)]
+        (~inspect-table form#)
+        form#))))

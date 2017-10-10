@@ -126,8 +126,16 @@
  ds/trie  data-scope.graphs/scope-trie
  ds/dot   data-scope.graphs/scope-dot
 
- ds/pp data-scope.pprint/scope-pprint
- ds/pt data-scope.pprint/scope-print-table
+ ds/pp    data-scope.pprint/scope-pprint
+ ds/pp->> data-scope.pprint/scope-pprint-thread-last
+ ds/pp->  data-scope.pprint/scope-pprint-thread-first
+ ds/pt    data-scope.pprint/scope-print-table
+ ds/pt->> data-scope.pprint/scope-print-table-thread-last
+ ds/pt->  data-scope.pprint/scope-print-table-thread-first
 
- ds/i  data-scope.inspect/scope-inspect-tree
- ds/it data-scope.inspect/scope-inspect-table}
+ ds/i     data-scope.inspect/scope-inspect-tree
+ ds/i->>  data-scope.inspect/scope-inspect-tree-thread-last
+ ds/i->   data-scope.inspect/scope-inspect-tree-thread-first
+ ds/it    data-scope.inspect/scope-inspect-table
+ ds/it->> data-scope.inspect/scope-inspect-table-thread-last
+ ds/it->  data-scope.inspect/scope-inspect-table-thread-first}
