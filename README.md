@@ -2,6 +2,14 @@
 
 A Clojure library inspired by [Spyscope](https://github.com/dgrnbrg/spyscope) to provide tools for interactively visualizing data.
 
+
+## Contributors
+
+* James Sofra (@sofra)
+* Denis Korzunov [https://github.com/disya2](https://github.com/disya2)
+* [https://github.com/sundbp](https://github.com/sundbp)
+
+
 ## Installation
 
 
@@ -748,12 +756,6 @@ user> #ds/hd [(range 10) [8 8 8 8 2 2 2 3 4 7 7 7 1 1 1]]
 user> #ds/hd {:a (range 10), :b [8 8 8 8 2 2 2 3 4 7 7 7 1 1 1]}
 ```
 ![""](doc/histogram_d_map_ns.png)
-
-
-## Contributors
-
-* James Sofra (@sofra)
-* Denis Korzunov (https://github.com/disya2)
 
 ## License
 
