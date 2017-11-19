@@ -43,6 +43,7 @@
        (.add (doto panel
                (.add (doto top-panel
                        (.add font+)
+                       (.add (java.awt.Label. "Font Size"))
                        (.add font-))
                      java.awt.BorderLayout/PAGE_START)
                (.add (javax.swing.JScrollPane.
