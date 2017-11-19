@@ -52,6 +52,9 @@ There is also support for pretty printing data. See all the usage examples below
 The inspector tags are:
 
 * `#ds/i` - *inspect the Clojure data structure in a tree inspector*
+* `#ds/i->` - *thread first version that can be used inside a thread first pipe line.*
+* `#ds/i->>` - *thread last version that can be used inside a thread first pipe line.*
+
 * `#ds/it` *inspect the data in a table inspector*
 
 #### `#ds/i`
@@ -84,7 +87,12 @@ user> (let [data [(range 9 19) (range 4 14) (range 2 12) (range 20 30)]]
 The pretty print tags are:
 
 * `#ds/pp` - *Pretty print a form*
+* `#ds/pp->` - *thread first version that can be used inside a thread first pipe line.*
+* `#ds/pp->>` - *thread last version that can be used inside a thread first pipe line.*
+
 * `#ds/pt` - *Print data as a table*
+* `#ds/pt->` - *thread first version that can be used inside a thread first pipe line.*
+* `#ds/pt->>` - *thread last version that can be used inside a thread first pipe line.*
 
 #### `#ds/pp`
 
@@ -97,6 +105,14 @@ user> (let [data [{:a 4 :b (range 20) :c [{:b 4 :n {:v {:d {:f [4 4]}}}}]}]]
   :c [{:b 4, :n {:v {:d {:f [4 4]}}}}]}]
 
 [{:a 4, :b (0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19), :c [{:b 4, :n {:v {:d {:f [4 4]}}}}]}]
+
+user> (->> [1 2 3]
+        #ds/pp->> (map (fn [x] (inc x)))
+        (map (fn [x] (* x x))))
+
+(2 3 4)
+
+(4 9 16)
 ```
 
 #### `#ds/pt`
